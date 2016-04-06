@@ -1,1 +1,1 @@
-"# scjp6-playground" 
+# scjp6-playground
