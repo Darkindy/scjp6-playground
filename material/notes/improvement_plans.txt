@@ -1,8 +1,16 @@
 ------------------------------------------------------------------------------------------
 To Improve
 ------------------------------------------------------------------------------------------
-> 
-
+> Strings, I/O, Formatting and Parsing
+> Development
+> Inner Classes
+> Generics and Collections
+> Assignments
+> Operators
+> Flow Control, Exceptions, and Assertions
+> Threads
+> Object Orientation
+> Declarations and Access Control
 
 ------------------------------------------------------------------------------------------
 DONE, but keep in mind!
