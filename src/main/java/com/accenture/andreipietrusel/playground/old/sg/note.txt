@@ -1,0 +1,4 @@
+# REMEMBER - The initialization order is:
+
+Only when a B object is first created (or a static method call to B is made) does the static initializer fire,
+ever though A is a superclass of B and it is used before B.
