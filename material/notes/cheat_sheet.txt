@@ -8,27 +8,50 @@ Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
+> No comma (,) between extends and implements. Comma is used only to separate multiple interfaces
+> No multiple use of implements keyword. Use comma for multiple interfaces
+> An interface can extend multiple other interfaces
+> You CAN'T do "this.super" or "var.super"
+> Finalize
+- You can call finalize by hand BUT it acts just as a simple method call (no special meaning)
+- GC will only run finalize once (it remebers this)
+- Objects can be saved from GC during finalization. The next time object is gc, finalize will not be called.
+> Default equals = equal objects by memory address, default hashcode = memory address casted to int
+> Default hashCode and equals are legal implementations, but hard to use. Overriding identical behavior is ok.
+> IF a.equals(b) then a.hashCode() = b.hashCode(). If you override equals then you must override hashcode!
+> By hashcode you identify the bucket (reducing time), then by equals you iterate to really find the object/key
 > 
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
 ------------------------------------------------------------------------------------------
-> 
+> Widening is preferred to boxing
+> Varargs must be last argument
+> Varargs are always considered last in overloading, even when we also have (Object) sgntr
+> You can't widen then box, but you can box then widen! REMEMBER FIRST you BOX!!!
+- e.g. you CAN int -> Integer -> Object (assigning to superclass is considered widening in wrappers)
+- but you can't short -> long -> Long
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
 ------------------------------------------------------------------------------------------
-> 
+> You can use logical or (xor) "^" to return true from mixing two different valued booleans
+> << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it
+>  
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
-> 
+> while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!!
+> for(int a = 0, b = 4 ; ; expression(), expression2()) is the correct syntax
+- multiple declared variables are permitted but only of the SAME type.
+- redefinition of other variables from the parent scope is illegal and is a tricky exam catch!!
+- multiple incrementing expressions are permitted, and they don't have to necessarily increment
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing
 ------------------------------------------------------------------------------------------
-> 
+> DateFormat has method format(java.util.Date) that returns a formatted date String
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -43,12 +66,24 @@ Chapter 8: Inner Classes
 ------------------------------------------------------------------------------------------
 Chapter 9: Threads
 ------------------------------------------------------------------------------------------
+> sleep and yield are STATIC. pay attention if they are called on a referenced thread. Only the current is affected!
 > Thread priorities (1-10) are the higher, the more critical (unlike priority queues where lower is urgent).
+> Threads can be started from virtually EVERYWHERE, including init blocks, constructors and inner classes
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
 ------------------------------------------------------------------------------------------
-> 
+> Command javac
+- 
+-
+> Command jar
+-
+-
+> Command java
+- -ea is only used for running, not compiling. It is required to enable assertions
+- -ea:possiblyqualified.Class or -ea:somepackage... , (yes with ellipsis) can enable assertions only in certain places
+- java -cp classes somepackage.Someclass // -cp specifies the classpath root. Someclass in package somepackage will run
+- there can be more classpaths, separated by File.pathSeparator (;win, :linux), search stops at first find.
 
 
 ------------------------------------------------------------------------------------------
@@ -57,3 +92,5 @@ Curiosities
 > Q: Which Set implementation does LinkedHashMap.keySet() use? 
   A: It's NOT LinkedHashSet as you might expect, but HashMap$KeySet (private type).
 - It does guarantee order of insertion! It is not sorted!
+> If you find a compilation problem and there are other CORRECT statements dependendent on the problematic class
+  you only point the FIRST problem, and consider the dependent statements ok! (ex. inherited uncompilable class)
