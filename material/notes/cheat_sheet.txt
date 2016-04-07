@@ -75,7 +75,13 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
   m.matches() attempts to match whole word with pattern
 - group will throw IllegalStateException if find (or match) wasn't called before
 > String
+- only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
 - somestring.replace ("whattoreplace", "replacement") is the correct usage
+- string has length() method, array has length property, collections have size() method
+- new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
+> StringBuilder
+- notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
+- 
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -141,3 +147,4 @@ Extras / Curiosities
 - It does guarantee order of insertion! It is not sorted!
 > If you find a compilation problem and there are other CORRECT statements dependendent on the problematic class
   you only point the FIRST problem, and consider the dependent statements ok! (ex. inherited uncompilable class)
+> (Java7) If you call somestring.intern() on a string will add this string to the pool or return the already pooled string
