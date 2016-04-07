@@ -14,14 +14,12 @@ public class FormatterSpecifiers {
 		System.out.format(" %f", f); // note that %f also accepts double
 
 		/*
-		 * XXX: %i is not a valid format specifier. Results:
-		 * java.util.UnknownFormatConversionException
+		 * XXX: %i invalid specifier. jv.util.UnknownFormatConversionException
 		 */
 		// System.out.printf(" %i", i);
 
 		/*
-		 * XXX: %d only accepts int. Results:
-		 * java.util.IllegalFormatConversionException.
+		 * XXX: %d only accepts int. java.util.IllegalFormatConversionException.
 		 */
 		// System.out.format(" %d", d);
 	}

@@ -1,4 +1,4 @@
-package com.accenture.andreipietrusel.scjp6playground.objectorientation;
+package com.accenture.andreipietrusel.scjp6playground.flowexceptionsassertions;
 
 public class SkippingFinally {
 

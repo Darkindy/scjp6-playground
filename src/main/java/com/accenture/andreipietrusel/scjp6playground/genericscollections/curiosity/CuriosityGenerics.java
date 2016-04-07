@@ -5,8 +5,8 @@ import com.accenture.andreipietrusel.scjp6playground.genericscollections.Complic
 public class CuriosityGenerics<T extends ComplicatedGenerics> {
 
 	/*
-	 * XXX: You cannot instantiate and return an object of just the
-	 * parameterized type.
+	 * XXX: You cannot instantiate and return an object of just the generic
+	 * type.
 	 */
 	public T getGeneric1() {
 		// return new CuriosityGenerics(); // Does not compile
@@ -14,7 +14,7 @@ public class CuriosityGenerics<T extends ComplicatedGenerics> {
 		return null;
 	}
 
-	/* XXX: You can return a new object of the */
+	/* XXX: You can return a new object of the full parameterized type. */
 	public CuriosityGenerics<T> getGeneric2() {
 		return new CuriosityGenerics<T>();
 	}
