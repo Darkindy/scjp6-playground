@@ -1,9 +1,10 @@
 ------------------------------------------------------------------------------------------
 Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
-> 
--
--
+> Integer caches -128 to 127 objects created through any other means than new operator
+  (autoboxed literals, Integer.valueOf(""))
+- parseInt returns primitive int, valueOf returns wrapper (Integer)
+- 
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -11,6 +12,7 @@ Chapter 2: Object Orientation
 > No comma (,) between extends and implements. Comma is used only to separate multiple interfaces
 > No multiple use of implements keyword. Use comma for multiple interfaces
 > An interface can extend multiple other interfaces
+> Interface methods CAN declare exceptions!
 > You CAN'T do "this.super" or "var.super"
 > Finalize
 - You can call finalize by hand BUT it acts just as a simple method call (no special meaning)
@@ -53,15 +55,29 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing
 ------------------------------------------------------------------------------------------
+> System.console() returns the console as java.io.Console
+- method readPassword() always reads the password in a char array and without echoing user input 
 > File file=new File("directory"); file.list() returns a string array of file names in the dir.
   list() does NOT throw any checked exceptions  
 > DateFormat has method format(java.util.Date) that returns a formatted date String
+> Regex
+- general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
+  while(m.find()){ syso (m.group() + " ")} next sequence OR
+  m.matches() attempts to match whole word with pattern
+- group will throw IllegalStateException if find (or match) wasn't called before
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
 ------------------------------------------------------------------------------------------
+> Default ArrayList max elements is 10 when not specified
 > PriorityQueue provides no non-destructive traversal methods. poll (get head) and remove (from anywhere) are used.
-> 
+> HashMap
+- can have one null key
+- values() returns a Collection that does not guarantee any ordering
+> Arrays throw ArrayIndexOutOfBoundsException when accesing an element at an index >= size. if size=0 then even a[0]
+> Arrays utility class
+- binarySearch(arr, key [,comparator]) must use the same comparator to return relevant results
+- if binarySearch(...) does not find the element it returns -(insertionPoint) -1 where insertionpoint is indexof first elem > key
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
@@ -73,6 +89,8 @@ Chapter 9: Threads
 ------------------------------------------------------------------------------------------
 > sleep and yield are STATIC. pay attention if they are called on a referenced thread. Only the current is affected!
 > Thread priorities (1-10) are the higher, the more critical (unlike priority queues where lower is urgent).
+> Child thread inherits parent's priority
+> Default thread priority is 5
 > Threads can be started from virtually EVERYWHERE, including init blocks, constructors and inner classes
 
 ------------------------------------------------------------------------------------------
