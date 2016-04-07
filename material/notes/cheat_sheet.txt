@@ -4,16 +4,25 @@ Chapter 1: Declarations and Access Control
 > Integer caches -128 to 127 objects created through any other means than new operator
   (autoboxed literals, Integer.valueOf(""))
 - parseInt returns primitive int, valueOf returns wrapper (Integer)
-- 
+- parseInt, constructor(String) can throw NumberFormatException if string is invalid
+> Permitted access modifiers for top level classes are only: public and (package-private)
+> Inner classes can also be declare private or protected
+> Default constructor always inherits access modifier of class
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
+> In order to override the parameters of the derived method should be exactly the same. (Parameter type invariance)
+- Covariant (more derived) or contravariant (ancestor type) parameters are NOT valid overrides, BUT LEGAL OVERLOADS!!!
+- Covariant return types are permitted!
+- Legal signature of equals is always: public boolean equals(Object other); you cannot use class type as parameter
+> super and this cannot be used from a static context (like main)
+> You CAN'T do "this.super" or "var.super"
 > No comma (,) between extends and implements. Comma is used only to separate multiple interfaces
 > No multiple use of implements keyword. Use comma for multiple interfaces
 > An interface can extend multiple other interfaces
 > Interface methods CAN declare exceptions!
-> You CAN'T do "this.super" or "var.super"
+> It's a compiler error to assign a new Base object to a derived reference. If you cast => ClassCastExc at runtime
 > Finalize
 - You can call finalize by hand BUT it acts just as a simple method call (no special meaning)
 - GC will only run finalize once (it remebers this)
@@ -22,7 +31,6 @@ Chapter 2: Object Orientation
 > Default hashCode and equals are legal implementations, but hard to use. Overriding identical behavior is ok.
 > IF a.equals(b) then a.hashCode() = b.hashCode(). If you override equals then you must override hashcode!
 > By hashcode you identify the bucket (reducing time), then by equals you iterate to really find the object/key
-> 
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -44,6 +52,7 @@ Chapter 4: Operators
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
+> Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
 > while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!!
 > for(int a = 0, b = 4 ; ; expression(), expression2()) is the correct syntax
 - multiple declared variables are permitted but only of the SAME type.
@@ -53,7 +62,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 >
 
 ------------------------------------------------------------------------------------------
-Chapter 6: Strings, I/O, Formatting and Parsing
+Chapter 6: Strings, I/O, Formatting and Parsing (API)
 ------------------------------------------------------------------------------------------
 > System.console() returns the console as java.io.Console
 - method readPassword() always reads the password in a char array and without echoing user input 
@@ -65,19 +74,30 @@ Chapter 6: Strings, I/O, Formatting and Parsing
   while(m.find()){ syso (m.group() + " ")} next sequence OR
   m.matches() attempts to match whole word with pattern
 - group will throw IllegalStateException if find (or match) wasn't called before
+> String
+- somestring.replace ("whattoreplace", "replacement") is the correct usage
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
 ------------------------------------------------------------------------------------------
-> Default ArrayList max elements is 10 when not specified
-> PriorityQueue provides no non-destructive traversal methods. poll (get head) and remove (from anywhere) are used.
+> You cannot use Generic specifiers defined at class level (like <T>) in static methods. 
+- Make it a generic static method separately by using the static <U> getStuff(U u) syntax
+> PriorityQueue 
+- is NOT a List, it is a Queue
+- has (int maxelements, comparator<T>) constructor
+- add() and offer() do the same thing; poll removes minimum; peek gets minimum without removing
+- provides no non-destructive traversal methods. poll (get head) and remove (from anywhere) are used.
 > HashMap
 - can have one null key
 - values() returns a Collection that does not guarantee any ordering
+> Default ArrayList max elements is 10 when not specified
 > Arrays throw ArrayIndexOutOfBoundsException when accesing an element at an index >= size. if size=0 then even a[0]
 > Arrays utility class
 - binarySearch(arr, key [,comparator]) must use the same comparator to return relevant results
 - if binarySearch(...) does not find the element it returns -(insertionPoint) -1 where insertionpoint is indexof first elem > key
+> Comparator has int compare(T a, T b) AND Comparable has int compareTo(T other)
+> AbstractList's removeRange(firstIndexIncl, lastIndexExcl) is PROTECTED. Please use .sublist(f,lexcl).clear() which delegates to removeRange internally.
+> 
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
@@ -92,17 +112,21 @@ Chapter 9: Threads
 > Child thread inherits parent's priority
 > Default thread priority is 5
 > Threads can be started from virtually EVERYWHERE, including init blocks, constructors and inner classes
+> Two threads can deadlock if they sync on each other's instances, or synchronize lock two resources in nested reverse order.
+- They will not deadlock if only one resource is waited for by both of them; it will eventually become available
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
 ------------------------------------------------------------------------------------------
-> Command javac
-- 
--
-> Command jar
--
--
-> Command java
+> Command javac Someclass.java
+- cp "path1;path2" can specify directories to scan as classpath roots to resolve classes, in that order. Also: ;win :linux 
+- -d classes specifies where to put the output
+- will create package hierarchy under output dir if compiled class is in a package other than default one
+> Command jar -cf JarFileName classesdir
+- when -f is used file name must follow (not required to end in .jar) 
+- META-INF is automatically created. no need to exist before command
+- -x means to create new archive, -u to update existing one
+> Command java SomeClass
 - -ea is only used for running, not compiling. It is required to enable assertions
 - -ea:possiblyqualified.Class or -ea:somepackage... , (yes with ellipsis) can enable assertions only in certain places
 - java -cp classes somepackage.Someclass // -cp specifies the classpath root. Someclass in package somepackage will run
@@ -110,7 +134,7 @@ Chapter 10: Development
 
 
 ------------------------------------------------------------------------------------------
-Curiosities
+Extras / Curiosities
 ------------------------------------------------------------------------------------------
 > Q: Which Set implementation does LinkedHashMap.keySet() use? 
   A: It's NOT LinkedHashSet as you might expect, but HashMap$KeySet (private type).
