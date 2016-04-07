@@ -37,7 +37,7 @@ Chapter 4: Operators
 ------------------------------------------------------------------------------------------
 > You can use logical or (xor) "^" to return true from mixing two different valued booleans
 > << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it
->  
+> 
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
@@ -47,6 +47,8 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - multiple declared variables are permitted but only of the SAME type.
 - redefinition of other variables from the parent scope is illegal and is a tricky exam catch!!
 - multiple incrementing expressions are permitted, and they don't have to necessarily increment
+> You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
+>
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing
@@ -58,6 +60,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
 ------------------------------------------------------------------------------------------
+> PriorityQueue provides no non-destructive traversal methods. poll (get head) and remove (from anywhere) are used.
 > 
 
 ------------------------------------------------------------------------------------------
