@@ -105,7 +105,13 @@ Chapter 7: Generics and Collections
 - if binarySearch(...) does not find the element it returns -(insertionPoint) -1 where insertionpoint is indexof first elem > key
 > Comparator has int compare(T a, T b) AND Comparable has int compareTo(T other)
 > AbstractList's removeRange(firstIndexIncl, lastIndexExcl) is PROTECTED. Please use .sublist(f,lexcl).clear() which delegates to removeRange internally.
-> 
+> TreeSet (methods)
+- NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive)
+- SortedSet<E> subSet(E fromElement, E toElement) // like any java range, last element is exclusive, first is inclusive
+- SortedSet<E> tailSet(E fromElement) // Returns live view set whose elements >= fromElement. 
+- NavigableSet<E> tailSet(E fromElement, boolean inclusive) // ~//~ greater than (or equal to, if inclusive is true) fromElement.
+- headSet(E,E) and headSet(E,b,E,b) work exactly the same only headset(E,E) return elements STRICTLY smaller than 2nd param
+- other notable methods: TO BE CONTINUED
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
