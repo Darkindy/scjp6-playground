@@ -8,6 +8,7 @@ Chapter 1: Declarations and Access Control
 > Permitted access modifiers for top level classes are only: public and (package-private)
 > Inner classes can also be declare private or protected
 > Default constructor always inherits access modifier of class
+> A final class field must always be explicitly initialized inline, in constructor or in initializer
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -86,6 +87,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
 ------------------------------------------------------------------------------------------
+> You don't specify dimensions when using array initializers. int[] a = new int[2]{1,2} is incorrect.
 > You cannot use Generic specifiers defined at class level (like <T>) in static methods. 
 - Make it a generic static method separately by using the static <U> getStuff(U u) syntax
 > PriorityQueue 
@@ -132,6 +134,7 @@ Chapter 10: Development
 - when -f is used file name must follow (not required to end in .jar) 
 - META-INF is automatically created. no need to exist before command
 - -x means to create new archive, -u to update existing one
+- you should not put anything in the META-INF folder. Jarred classes will start from root and not be in this folder
 > Command java SomeClass
 - -ea is only used for running, not compiling. It is required to enable assertions
 - -ea:possiblyqualified.Class or -ea:somepackage... , (yes with ellipsis) can enable assertions only in certain places
