@@ -1,4 +1,4 @@
-package com.accenture.andreipietrusel.scjp6playground.formattingparsingapi;
+package com.accenture.andreipietrusel.scjp6playground.formattingparsingapi.files;
 
 import java.io.File;
 

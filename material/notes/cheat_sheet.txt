@@ -12,7 +12,7 @@ Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
-> In order to override the parameters of the derived method should be exactly the same. (Parameter type invariance)
+> In order to override, the parameters of the derived method should be exactly the same. (Parameter type invariance)
 - Covariant (more derived) or contravariant (ancestor type) parameters are NOT valid overrides, BUT LEGAL OVERLOADS!!!
 - Covariant return types are permitted!
 - Legal signature of equals is always: public boolean equals(Object other); you cannot use class type as parameter
@@ -29,7 +29,7 @@ Chapter 2: Object Orientation
 - Objects can be saved from GC during finalization. The next time object is gc, finalize will not be called.
 > Default equals = equal objects by memory address, default hashcode = memory address casted to int
 > Default hashCode and equals are legal implementations, but hard to use. Overriding identical behavior is ok.
-> IF a.equals(b) then a.hashCode() = b.hashCode(). If you override equals then you must override hashcode!
+> IF a.equals(b) then a.hashCode() == b.hashCode(). If you override equals then you must override hashcode!
 > By hashcode you identify the bucket (reducing time), then by equals you iterate to really find the object/key
 > If a base class has a parameterized constructor, derivatives need to invoke it.
 - It is valid that subclass can indirectly invoke the base parameterized constructor through another of its
@@ -66,15 +66,12 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
 ------------------------------------------------------------------------------------------
-> System.console() returns the console as java.io.Console
-- method readPassword() always reads the password in a char array and without echoing user input 
-> File file=new File("directory"); file.list() returns a string array of file names in the dir.
-  list() does NOT throw any checked exceptions  
 > DateFormat has method format(java.util.Date) that returns a formatted date String
 > Regex
 - general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
   while(m.find()){ syso (m.group() + " ")} next sequence OR
   m.matches() attempts to match whole word with pattern
+> "?" means 0 or 1 occurences, "*" 0 or more, "+" 1 or more
 - group will throw IllegalStateException if find (or match) wasn't called before
 > String
 - only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
@@ -83,6 +80,26 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
+> MOST FILE OPERATIONS THROW EXCEPTIONS
+> File
+- constructors (string) or (File directory, String)
+- has methods exists(); createNewFile() - which really creates,equals then updated returns true if created;
+- file cannot be closed, only readers and writers do
+- Directories. You can use the following methods on File: boolean mkdir()
+- file.list() returns a string array of file names in the dir. list() does NOT throw any checked exceptions
+- other methods isDirectory(), isFile(), renameTo(File) - can actually also move a file
+> FileReader [[ < BufferedReader ; FileWriter < BufferedWriter < PrintWriter ]]
+- FileReader has int read(char[]) reads the whole file, returns int size read; read() 1 char; read(char[], arroffset, length)
+> BufferedReader has methods String readline(); 
+> FileWriter
+- has write(String) - writes characters to file, has flush() may be called before close; write(char[]/String, offset, length) 
+> BufferedWriter - has newLine method.
+> PrintWriter - has print(..), println(..), format(..) and printf/format(..)
+> System.console() returns the console INSTANCE as java.io.Console, we CAN'T get it with "new"
+- method c.readPassword("%s", "pw: ") always reads the password in a char array and without echoing user input
+- method c.readLine("%s", "input?: "); contains an element entered by the user (see format)
+- method c.format("output: %s \n", str); prints something on the screen using format
+
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -102,7 +119,7 @@ Chapter 7: Generics and Collections
 > Arrays throw ArrayIndexOutOfBoundsException when accesing an element at an index >= size. if size=0 then even a[0]
 > Arrays utility class
 - binarySearch(arr, key [,comparator]) must use the same comparator to return relevant results
-- if binarySearch(...) does not find the element it returns -(insertionPoint) -1 where insertionpoint is indexof first elem > key
+- if binarySearch(...) does not find the element it returns -insertionPoint -1 where insertionpoint is indexof first elem > key
 > Comparator has int compare(T a, T b) AND Comparable has int compareTo(T other)
 > AbstractList's removeRange(firstIndexIncl, lastIndexExcl) is PROTECTED. Please use .sublist(f,lexcl).clear() which delegates to removeRange internally.
 > TreeSet (methods)
@@ -110,7 +127,7 @@ Chapter 7: Generics and Collections
 - SortedSet<E> subSet(E fromElement, E toElement) // like any java range, last element is exclusive, first is inclusive
 - SortedSet<E> tailSet(E fromElement) // Returns live view set whose elements >= fromElement. 
 - NavigableSet<E> tailSet(E fromElement, boolean inclusive) // ~//~ greater than (or equal to, if inclusive is true) fromElement.
-- headSet(E,E) and headSet(E,b,E,b) work exactly the same only headset(E,E) return elements STRICTLY smaller than 2nd param
+- headSet(E) and headSet(E,b) work exactly the same only headset(E) return elements STRICTLY smaller
 - other notable methods: TO BE CONTINUED
 
 ------------------------------------------------------------------------------------------
@@ -143,7 +160,7 @@ Chapter 10: Development
 - when -f is used file name must follow (not required to end in .jar) 
 - META-INF is automatically created. no need to exist before command. It will not contain classes!
 - -x means to create new archive, -u to update existing one
-- you should not put anything in the META-INF folder. Jarred classes will start from root and not be in this folder
+- you should not put java files in the META-INF folder. Compiled classes will start from root and not be in this folder
 > Command java SomeClass
 - -ea is only used for running, not compiling. It is required to enable assertions
 - -ea:possiblyqualified.Class or -ea:somepackage... , (yes with ellipsis) can enable assertions only in certain places
