@@ -2,11 +2,10 @@
 Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
 > Integer caches -128 to 127 objects created through any other means than new operator
-  (autoboxed literals, Integer.valueOf(""))
+  (autoboxed literals, Integer.valueOf("")), meaning same object will be returned
 - parseInt returns primitive int, valueOf returns wrapper (Integer)
 - parseInt, constructor(String) can throw NumberFormatException if string is invalid
 > Permitted access modifiers for top level classes are only: public and (package-private)
-> Inner classes can also be declare private or protected
 > Default constructor always inherits access modifier of class
 > A final class field must always be explicitly initialized inline, in constructor or in initializer
 
@@ -32,6 +31,9 @@ Chapter 2: Object Orientation
 > Default hashCode and equals are legal implementations, but hard to use. Overriding identical behavior is ok.
 > IF a.equals(b) then a.hashCode() = b.hashCode(). If you override equals then you must override hashcode!
 > By hashcode you identify the bucket (reducing time), then by equals you iterate to really find the object/key
+> If a base class has a parameterized constructor, derivatives need to invoke it.
+- It is valid that subclass can indirectly invoke the base parameterized constructor through another of its
+  constructors, that call super(...) as it's first statement.
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -48,19 +50,18 @@ Chapter 4: Operators
 ------------------------------------------------------------------------------------------
 > You can use logical or (xor) "^" to return true from mixing two different valued booleans
 > << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it
-> 
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
 > Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
+- Assertions like "assert false" are appropriate to use in any method to mark a location where code should not reach.
 > while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!!
 > for(int a = 0, b = 4 ; ; expression(), expression2()) is the correct syntax
 - multiple declared variables are permitted but only of the SAME type.
 - redefinition of other variables from the parent scope is illegal and is a tricky exam catch!!
 - multiple incrementing expressions are permitted, and they don't have to necessarily increment
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
->
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
@@ -82,7 +83,6 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
-- 
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -116,11 +116,13 @@ Chapter 7: Generics and Collections
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
 ------------------------------------------------------------------------------------------
->
+> Inner classes can also be declare private or protected
+- Inner classes access modifiers apply independently of the parent class (e.g. package-private inner class in public class)
 
 ------------------------------------------------------------------------------------------
 Chapter 9: Threads
 ------------------------------------------------------------------------------------------
+> The methods that throw InterruptedException are object.wait, Thread.sleep and t.join()
 > sleep and yield are STATIC. pay attention if they are called on a referenced thread. Only the current is affected!
 > Thread priorities (1-10) are the higher, the more critical (unlike priority queues where lower is urgent).
 > Child thread inherits parent's priority
@@ -132,13 +134,14 @@ Chapter 9: Threads
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
 ------------------------------------------------------------------------------------------
-> Command javac Someclass.java
-- cp "path1;path2" can specify directories to scan as classpath roots to resolve classes, in that order. Also: ;win :linux 
+> Command javac Someclass.java SomeOtherClass.java
+- cp "path1;path2" can specify directories to scan as classpath roots to resolve classes (.class), in that order. Also: ;win :linux 
+- classpath is by default the current directory. Make sure you add . if you redefine this and want to resolve .class in current dir.
 - -d classes specifies where to put the output
 - will create package hierarchy under output dir if compiled class is in a package other than default one
 > Command jar -cf JarFileName classesdir
 - when -f is used file name must follow (not required to end in .jar) 
-- META-INF is automatically created. no need to exist before command
+- META-INF is automatically created. no need to exist before command. It will not contain classes!
 - -x means to create new archive, -u to update existing one
 - you should not put anything in the META-INF folder. Jarred classes will start from root and not be in this folder
 > Command java SomeClass
