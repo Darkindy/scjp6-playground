@@ -7,11 +7,18 @@ Chapter 1: Declarations and Access Control
 - parseInt, constructor(String) can throw NumberFormatException if string is invalid
 > Permitted access modifiers for top level classes are only: public and (package-private)
 > Default constructor always inherits access modifier of class
+> if you implement an interface you must declare the methods public. leaving them package-private is c. ERROR
 > A final class field must always be explicitly initialized inline, in constructor or in initializer
+> Interface implicits!!!
+- REMEMBER: constants in interfaces are NOT necessary to be declared public static final, but any or none of these (rest of modifiers will be added auto)
+- REMEMBER: methods in an interface are NOT necessary to be declared public abstract, but any or none of these (rest of modifiers will be added auto)
+- ANY OTHER MODIFIERS like private/protected for the above cases will result in COMPILER ERROR 
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
+> you cannot hide a method using static method in the derived class! 
+- the reverse is also true; you also cannot hide a static method using a method.
 > In order to override, the parameters of the derived method should be exactly the same. (Parameter type invariance)
 - Covariant (more derived) or contravariant (ancestor type) parameters are NOT valid overrides, BUT LEGAL OVERLOADS!!!
 - Covariant return types are permitted!
@@ -34,6 +41,7 @@ Chapter 2: Object Orientation
 > If a base class has a parameterized constructor, derivatives need to invoke it.
 - It is valid that subclass can indirectly invoke the base parameterized constructor through another of its
   constructors, that call super(...) as it's first statement.
+> BE CAREFUL of private constructors/method calls in the same class as the main method! they work!
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -44,6 +52,8 @@ Chapter 3: Assignments
 > You can't widen then box, but you can box then widen! REMEMBER FIRST you BOX!!!
 - e.g. you CAN int -> Integer -> Object (assigning to superclass is considered widening in wrappers)
 - but you can't short -> long -> Long
+- Integer (wrapper) increment and postincrement WORK! they really assign the value (create new obj).
+> always think x+=y as x = (t) (x + y) and x++ as x = (t) (x+1)
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
@@ -56,16 +66,24 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
 > Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
 - Assertions like "assert false" are appropriate to use in any method to mark a location where code should not reach.
+- asserting a false statement throws AssertionError => program exits unless the error is caught
+- asserting a modifying statement is bad practice. code will only modify is assertions are enabled.
+- syntax is assert boolean_statement : non_void_return_statement where the 2nd will print to screen (usually a string)
+- the 2nd expression can call modifiable code, but usually it doesn't matter anymore as the program doesn't catch the error and exits
 > while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!!
+- for if(true) throw RuntimeException, any code following will NOT be considered UNREACHABLE! WHAT A HACK! :O
 > for(int a = 0, b = 4 ; ; expression(), expression2()) is the correct syntax
 - multiple declared variables are permitted but only of the SAME type.
 - redefinition of other variables from the parent scope is illegal and is a tricky exam catch!!
 - multiple incrementing expressions are permitted, and they don't have to necessarily increment
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
+> Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
 ------------------------------------------------------------------------------------------
+> To get -D passed properties you do: System.getProperty("x") or System.getProperties().getProperty("x")
+- you use System.getenv("var"); [ yes with non capital env ] to a an environment variable
 > DateFormat has method format(java.util.Date) that returns a formatted date String
 > Regex
 - general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
@@ -99,7 +117,11 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - method c.readPassword("%s", "pw: ") always reads the password in a char array and without echoing user input
 - method c.readLine("%s", "input?: "); contains an element entered by the user (see format)
 - method c.format("output: %s \n", str); prints something on the screen using format
-
+> Scanner 
+- has constructor new Scanner (String), Scanner (File), and ofc inputstream but not discussed
+- has methods useDelimiter( STRING not char )
+- methods nextInt throw java.util.InputMismatchException if format not ok;
+- also has methods next() and nextLine() for reading next token by delimiter, or next line.
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -116,8 +138,11 @@ Chapter 7: Generics and Collections
 - can have one null key
 - values() returns a Collection that does not guarantee any ordering
 > Default ArrayList max elements is 10 when not specified
+> Collections utility class
+- sort(List) or sort(list, comparator) throw ClassCastException if the elements are not comparable (ml do not implement Comparable)
 > Arrays throw ArrayIndexOutOfBoundsException when accesing an element at an index >= size. if size=0 then even a[0]
-> Arrays utility class
+> Arrays utility class if the elements are not comparable (ml do not implement Comparable)
+- sort() throws ClassCast exception of 
 - binarySearch(arr, key [,comparator]) must use the same comparator to return relevant results
 - if binarySearch(...) does not find the element it returns -insertionPoint -1 where insertionpoint is indexof first elem > key
 > Comparator has int compare(T a, T b) AND Comparable has int compareTo(T other)
@@ -129,6 +154,7 @@ Chapter 7: Generics and Collections
 - NavigableSet<E> tailSet(E fromElement, boolean inclusive) // ~//~ greater than (or equal to, if inclusive is true) fromElement.
 - headSet(E) and headSet(E,b) work exactly the same only headset(E) return elements STRICTLY smaller
 - other notable methods: TO BE CONTINUED
+- REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
@@ -156,6 +182,7 @@ Chapter 10: Development
 - classpath is by default the current directory. Make sure you add . if you redefine this and want to resolve .class in current dir.
 - -d classes specifies where to put the output
 - will create package hierarchy under output dir if compiled class is in a package other than default one
+- jars from $JAVA_HOME/jre/lib/ext/*.jar get added to cp automatically; also the ones specified in $CLASSPATH environment variable
 > Command jar -cf JarFileName classesdir
 - when -f is used file name must follow (not required to end in .jar) 
 - META-INF is automatically created. no need to exist before command. It will not contain classes!

@@ -23,6 +23,17 @@ public class DeadAndUnreachableCode {
 		// for (;false;){
 		//
 		// }
+
+		/* XXX: Following if(true) then exception, code is NOT unreachable */
+		if (true)
+			throw new RuntimeException();
+
+		/*
+		 * Without if-ing the previous throw, the following will throw
+		 * compilation error.
+		 */
+		System.out.println(
+				"This is surprisingly NOT unreachable because of if(true). What a hack! :O. Of course, it never executes.");
 	}
 
 }
