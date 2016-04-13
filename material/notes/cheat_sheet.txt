@@ -111,7 +111,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - Directories. You can use the following methods on File: boolean mkdir()
 - file.list() returns a string array of file names in the dir. list() does NOT throw any checked exceptions
 - other methods isDirectory(), isFile(), renameTo(File) - can actually also move a file
-> FileReader [[ < BufferedReader ; FileWriter < BufferedWriter < PrintWriter ]]
+> FileReader [[ < BufferedReader ; FileWriter < BufferedWriter < PrintWriter ]], all construct from filenamestring or File
 - FileReader has int read(char[]) reads the whole file, returns int size read; read() 1 char; read(char[], arroffset, length)
 > BufferedReader has methods String readline() - it returns null when all lines have been read. THERE IS NO hasNext method in FileReader(s), only in scanner 
 > FileWriter
@@ -127,6 +127,19 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - has methods useDelimiter( STRING not char )
 - methods nextInt throw java.util.InputMismatchException if format not ok;
 - also has methods next() and nextLine() for reading next token by delimiter, or next line and also boolean hasNext()!!!
+> Serialization syntax
+- FileOutputStream fs = new FileOutputStream("testSer.ser"); ObjectOutputStream os = new ObjectOutputStream(fs);
+- os.writeObject(c); os.close();} catch (Exception e)
+- FileInputStream fis = new FileInputStream("testSer.ser"); ObjectInputStream ois = new ObjectInputStream(fis);
+- c = (Cat) ois.readObject(); ois.close();} catch (Exception e) { e.printStackTrace(); } // CAST OBJECT AT READ!!!
+- java.io.NotSerializableException if one non-transient nested object is not serializable
+- to custom serialize a field, you declare it at transient!!! then:
+- object can define two private methods: private VOID readObject(OIS) and private void writeObject(OOS) // BOTH THROW EX
+- inside them you writeInt/writeObject on the stream and before or after call defaultWriteObject() or defaultReadObject()
+- keep order of custom written fields in both writeObject(OOS) and readObject(OIS)
+- In deserialization, all constructors of the non-serializable superclasses will call. 
+- Fields of those non-serializable superclasses will not serialize, unless done manually using writeobj(oos)
+- constructors and field initializers + initializers from the first serializable superclass will NOT call
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
