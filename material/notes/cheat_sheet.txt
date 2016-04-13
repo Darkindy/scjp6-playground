@@ -113,7 +113,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - other methods isDirectory(), isFile(), renameTo(File) - can actually also move a file
 > FileReader [[ < BufferedReader ; FileWriter < BufferedWriter < PrintWriter ]]
 - FileReader has int read(char[]) reads the whole file, returns int size read; read() 1 char; read(char[], arroffset, length)
-> BufferedReader has methods String readline(); 
+> BufferedReader has methods String readline() - it returns null when all lines have been read. THERE IS NO hasNext method in FileReader(s), only in scanner 
 > FileWriter
 - has write(String) - writes characters to file, has flush() may be called before close; write(char[]/String, offset, length) 
 > BufferedWriter - has newLine method.
@@ -126,7 +126,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - has constructor new Scanner (String), Scanner (File), and ofc inputstream but not discussed
 - has methods useDelimiter( STRING not char )
 - methods nextInt throw java.util.InputMismatchException if format not ok;
-- also has methods next() and nextLine() for reading next token by delimiter, or next line.
+- also has methods next() and nextLine() for reading next token by delimiter, or next line and also boolean hasNext()!!!
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -160,6 +160,8 @@ Chapter 7: Generics and Collections
 - headSet(E) and headSet(E,b) work exactly the same only headset(E) return elements STRICTLY smaller
 - other notable methods: TO BE CONTINUED
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
+> You can't call add on a collection<? extends Something>, which has ? wildcard param. Compile error!
+> Array let's you get away with putting a Cat in an Animal array reference which references a Dog array object.
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
