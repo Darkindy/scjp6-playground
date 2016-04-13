@@ -13,6 +13,7 @@ Chapter 1: Declarations and Access Control
 - REMEMBER: constants in interfaces are NOT necessary to be declared public static final, but any or none of these (rest of modifiers will be added auto)
 - REMEMBER: methods in an interface are NOT necessary to be declared public abstract, but any or none of these (rest of modifiers will be added auto)
 - ANY OTHER MODIFIERS like private/protected for the above cases will result in COMPILER ERROR 
+> strictfp can be applied to methods, classes and interfaces
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -54,12 +55,15 @@ Chapter 3: Assignments
 - but you can't short -> long -> Long
 - Integer (wrapper) increment and postincrement WORK! they really assign the value (create new obj).
 > always think x+=y as x = (t) (x + y) and x++ as x = (t) (x+1)
+> Boolean.valueOf or the constructor(String) of boolean returns true for a case insensitive tRuE, else false, never null
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
 ------------------------------------------------------------------------------------------
 > You can use logical or (xor) "^" to return true from mixing two different valued booleans
 > << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it
+> Correct syntax is a instanceof ClassNameOnly-NotAVariableNotAnExpression. NO PARANTHESIS~~!
+- it will return true if a is a ClassNameOnly (or a subclass of it).
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
@@ -78,6 +82,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - multiple incrementing expressions are permitted, and they don't have to necessarily increment
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
+> in switch it's "default:" not "case default:"
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
@@ -161,6 +166,8 @@ Chapter 8: Inner Classes
 ------------------------------------------------------------------------------------------
 > Inner classes can also be declare private or protected
 - Inner classes access modifiers apply independently of the parent class (e.g. package-private inner class in public class)
+> When you instantiate inner class you do Outer.Inner inner = outer.new Inner(); // you do not requalify the new part!!!
+> When you instantiate static nested class you do Outer.StaticNested staticNested = new Outer.StaticNested(); // both parts 'Outer' qualified
 
 ------------------------------------------------------------------------------------------
 Chapter 9: Threads
@@ -173,6 +180,8 @@ Chapter 9: Threads
 > Threads can be started from virtually EVERYWHERE, including init blocks, constructors and inner classes
 > Two threads can deadlock if they sync on each other's instances, or synchronize lock two resources in nested reverse order.
 - They will not deadlock if only one resource is waited for by both of them; it will eventually become available
+- Multiple threads CAN deadlock at once.
+- Using yield will not fix deadlock-able code.
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
