@@ -14,6 +14,7 @@ Chapter 1: Declarations and Access Control
 - REMEMBER: methods in an interface are NOT necessary to be declared public abstract, but any or none of these (rest of modifiers will be added auto)
 - ANY OTHER MODIFIERS like private/protected for the above cases will result in COMPILER ERROR 
 > strictfp can be applied to methods, classes and interfaces
+> If a class is not public (say package-private), its public variables will NOT be available to ANY class (in this case, only to classes in the package) 
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -74,11 +75,12 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - asserting a modifying statement is bad practice. code will only modify is assertions are enabled.
 - syntax is assert boolean_statement : non_void_return_statement where the 2nd will print to screen (usually a string)
 - the 2nd expression can call modifiable code, but usually it doesn't matter anymore as the program doesn't catch the error and exits
-> while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!!
+> while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!
 - for if(true) throw RuntimeException, any code following will NOT be considered UNREACHABLE! WHAT A HACK! :O
 > for(int a = 0, b = 4 ; ; expression(), expression2()) is the correct syntax
 - multiple declared variables are permitted but only of the SAME type.
 - redefinition of other variables from the parent scope is illegal and is a tricky exam catch!!
+- WATCH OUT FOR reusing FOR incrementing variables after closing the for scope!!! => Compile error!
 - multiple incrementing expressions are permitted, and they don't have to necessarily increment
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
@@ -90,6 +92,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > To get -D passed properties you do: System.getProperty("x") or System.getProperties().getProperty("x")
 - you use System.getenv("var"); [ yes with non capital env ] to a an environment variable
 > DateFormat has method format(java.util.Date) that returns a formatted date String
+- df.parse("string") will throw checked exception ParseException!!! treat it!
 > Regex
 - general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
   while(m.find()){ syso (m.group() + " ")} next sequence OR
@@ -103,6 +106,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
+- replace(...) with 2 args(what,withwhat) or 3 args(first,lastNotIncl,withwhat)
 > MOST FILE OPERATIONS THROW EXCEPTIONS
 > File
 - constructors (string) or (File directory, String)
@@ -207,6 +211,7 @@ Chapter 10: Development
 - -d classes specifies where to put the output
 - will create package hierarchy under output dir if compiled class is in a package other than default one
 - jars from $JAVA_HOME/jre/lib/ext/*.jar get added to cp automatically; also the ones specified in $CLASSPATH environment variable
+- -source 1.3 is the LAST ONE to NOT consider assert a keyword!!! Starting from 1.4 it is a keyword!
 > Command jar -cf JarFileName classesdir
 - when -f is used file name must follow (not required to end in .jar) 
 - META-INF is automatically created. no need to exist before command. It will not contain classes!
