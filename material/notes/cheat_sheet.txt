@@ -177,7 +177,7 @@ Chapter 7: Generics and Collections
 - headSet(E) and headSet(E,b) work exactly the same only headset(E) return elements STRICTLY smaller
 - other notable methods: TO BE CONTINUED
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
-> You can't call add on a collection<? extends Something>, which has ? wildcard param. Compile error!
+> You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
 > Array let's you get away with putting a Cat in an Animal array reference which references a Dog array object.
 
 ------------------------------------------------------------------------------------------
@@ -201,6 +201,7 @@ Chapter 9: Threads
 - They will not deadlock if only one resource is waited for by both of them; it will eventually become available
 - Multiple threads CAN deadlock at once.
 - Using yield will not fix deadlock-able code.
+> watch out! when a method synchronized but not static and changes a static field IS IS NOT THREAD SAFE. it must be made static!!!
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
