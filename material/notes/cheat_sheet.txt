@@ -179,6 +179,7 @@ Chapter 7: Generics and Collections
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
 > You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
 > Array let's you get away with putting a Cat in an Animal array reference which references a Dog array object.
+> constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
