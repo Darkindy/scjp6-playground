@@ -233,3 +233,4 @@ Extras / Curiosities
 > If you find a compilation problem and there are other CORRECT statements dependendent on the problematic class
   you only point the FIRST problem, and consider the dependent statements ok! (ex. inherited uncompilable class)
 > (Java7) If you call somestring.intern() on a string will add this string to the pool or return the already pooled string
+> Two implemented interfaces have same const & YOU USE IT (only then) => field ambigous compiler error!
