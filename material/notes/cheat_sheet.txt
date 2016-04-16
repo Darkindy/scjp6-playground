@@ -89,10 +89,51 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
 ------------------------------------------------------------------------------------------
+> java.util.Date is NOT immutable; it uses alterable epoch time
+- Date(long milliseconds) is a valid constructor
+- you can use getTime() to get the long value of milliseconds
+- you can use setTime(long milliseconds) to modify the current date to other milliseconds value!!! 
+
+> java.util.Calendar
+- you obtain it using Calendar.getInstance();
+- you can set date to it using calendar.setTime(date)
+- you can also use set(year, month, day) BUT REMEMBER MONTH STARTS AT 0 (ZERO) or you could use Calendar.JANUARY
+- c.add(Calendar.HOUR, 1) or c.roll(Calendar.MONTH, 11) works; roll is like add only it leaves larger units as it and recycles through specified unit
+- c.get(Calendar.DAY_OF_MONTH) returns day of month(e.g.31); you don't have to know all fields for exam
+- calendar.getTime() obtains a Date represented by this calendar
+
+> java.text.DateFormat
+- BOTH DateFormat and NumberFormat CAN ONLY set LOCALE at the moment of instantiation!!! The is NO METHOD TO CHANGE IT AFTERWARDS
+- DateFormat.getDateInstance(), DateFormat.getDateInstance(int DateFormat.LONG) return date formats for default locale
+- DateFormat.getDateInstance(int DateFormat.LONG, locale); will get a Dateformat object for that
+- same for DateFormat.getTimeInstance(...), they still use the following int DateFormat.* constants for time formats (please infer)
+- getDateTimeInstance(...) also exists and it's the only one that retains time!!!
+- SHORT = 12.13.52, MEDIUM (default for getDATEInstance() = Jan 12, 1952, LONG = January 12, 1952, FULL = Tuesday, April 12, 1952 AD
+- DateFormat.getInstance() exist... but without params, uses SHORT for both date and time formatting! not used frequently
+- df.parse("string") will return a Date and will throw checked exception ParseException!!! treat it!
+- df.format(java.util.Date) that returns a formatted date String
+
+> java.text.NumberFormat
+- NumberFormat.getInstance(locale) gets number formatter for specific locale
+- NumberFormat.getCurrencyInstance(locale) gets number formatter for specific locale; curiosity: f.setCurrency(Currency.getInstance("EUR")) can further set currency
+- NumberFormat.getPercentInstance(locale) also exists.
+- There are methods .getInstance() and .getCurrencyInstance() - and will use current locale
+- nf.parse returns a Number, the kind of what it has parsed
+- you can use nf.setParseIntegerOnly(true) to only further consider integer parts of floating point number strings
+- nf.format(Number) that returns a formatted number String; throws arithmetic exc if roundingmode is set to unnecessary
+- nf.setRoundingMode(RoundingMode) can set rounding mode; IF NOT SPECIFIED IS HALF_EVEN. round up usually, unless 0.5 then round to nearest EVEN number
+- nf.setMaximumFractionDigits and nf.setMinimumFractionDigits will be respected, ROUNDING WILL BE APPLIED when using format(...)
+
+> java.util.Locale
+- getDefault() gets current default locale!!! remember JUST getDefault()!!!
+- new Locale(language); or Locale(language, country);
+- example new Locale("it","CH"); // Switzerland
+- you can also use Locale.CANADA constants for some important countries
+- there are also methods loc.getDisplayCountry() and loc.getDisplayLanguage() that will return the name of country/language in cur locale (english)
+- to return the name of country/language in other locales, you can use the parameterized versions like getDisplayLanguage(otherLocale) 
+
 > To get -D passed properties you do: System.getProperty("x") or System.getProperties().getProperty("x")
 - you use System.getenv("var"); [ yes with non capital env ] to a an environment variable
-> DateFormat has method format(java.util.Date) that returns a formatted date String
-- df.parse("string") will throw checked exception ParseException!!! treat it!
 > Regex
 - general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
   while(m.find()){ syso (m.group() + " ")} next sequence OR
@@ -236,3 +277,5 @@ Extras / Curiosities
   you only point the FIRST problem, and consider the dependent statements ok! (ex. inherited uncompilable class)
 > (Java7) If you call somestring.intern() on a string will add this string to the pool or return the already pooled string
 > Two implemented interfaces have same const & YOU USE IT (only then) => field ambigous compiler error!
+> Math.round(float) returns int and Math.round(double) returns long. they may be used to do real rounding (not for printing)
+  using something like double x = 100.55; x = x * 100; x = (double) Math.round(x); x = x / 100;
