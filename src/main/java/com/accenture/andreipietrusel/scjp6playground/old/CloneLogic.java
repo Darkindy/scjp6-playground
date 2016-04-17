@@ -12,9 +12,18 @@ public class CloneLogic implements Cloneable {
 		} catch (CloneNotSupportedException e) {
 			throw new AssertionError(e);
 		}
+		
+
+		
 	}
 
 	public int getA() {
+		Integer i = 4;
+		char c = (int) 65000;
+		
+		System.out.println(c * i);
+		
+		
 		return a;
 	}
 

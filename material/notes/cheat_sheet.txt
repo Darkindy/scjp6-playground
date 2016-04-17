@@ -15,6 +15,8 @@ Chapter 1: Declarations and Access Control
 - ANY OTHER MODIFIERS like private/protected for the above cases will result in COMPILER ERROR 
 > strictfp can be applied to methods, classes and interfaces
 > If a class is not public (say package-private), its public variables will NOT be available to ANY class (in this case, only to classes in the package) 
+> Local (method) variables are also called automatic variables
+> abstract method cannot be native
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -23,10 +25,11 @@ Chapter 2: Object Orientation
 - the reverse is also true; you also cannot hide a static method using a method.
 > In order to override, the parameters of the derived method should be exactly the same. (Parameter type invariance)
 - Covariant (more derived) or contravariant (ancestor type) parameters are NOT valid overrides, BUT LEGAL OVERLOADS!!!
-- Covariant return types are permitted!
+- Covariant return types are permitted but only for objects! NOT FOR PRIMITIVES.
 - Legal signature of equals is always: public boolean equals(Object other); you cannot use class type as parameter
 > super and this cannot be used from a static context (like main)
 > You CAN'T do "this.super" or "var.super"
+> You CAN'T call super-superclass's method if it was overriden by superclass!!!
 > No comma (,) between extends and implements. Comma is used only to separate multiple interfaces
 > No multiple use of implements keyword. Use comma for multiple interfaces
 > An interface can extend multiple other interfaces
@@ -44,6 +47,8 @@ Chapter 2: Object Orientation
 - It is valid that subclass can indirectly invoke the base parameterized constructor through another of its
   constructors, that call super(...) as it's first statement.
 > BE CAREFUL of private constructors/method calls in the same class as the main method! they work!
+> Strings declared inside a block/method will NOT be available for garbage collection (in java 6 anyway) after the method/block ends
+> Objects that have references to them might still be garbage collected if those references are from objects also g.c. eligible (islands)
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -57,6 +62,10 @@ Chapter 3: Assignments
 - Integer (wrapper) increment and postincrement WORK! they really assign the value (create new obj).
 > always think x+=y as x = (t) (x + y) and x++ as x = (t) (x+1)
 > Boolean.valueOf or the constructor(String) of boolean returns true for a case insensitive tRuE, else false, never null
+> Java performs implicit narrowing conversions of primitives when the context requires it when the value is the result of a constant expression only
+- that means that char c = a * b where a and b are ints will not work because it's a runtime determined value!!!
+> ints only upto 65565 - which is short maxvalue will cast directly to char; higher ints will give compile error.
+> something like a [ (a=b) [k] ] where a and b are arrays will make a [...] still refer to the original a, and not b!!!
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
@@ -65,6 +74,8 @@ Chapter 4: Operators
 > << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it
 > Correct syntax is a instanceof ClassNameOnly-NotAVariableNotAnExpression. NO PARANTHESIS~~!
 - it will return true if a is a ClassNameOnly (or a subclass of it).
+> ~ only applies to ints (bitwise not)
+> *, / and % all have the same level of precedence
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
@@ -134,11 +145,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 
 > To get -D passed properties you do: System.getProperty("x") or System.getProperties().getProperty("x")
 - you use System.getenv("var"); [ yes with non capital env ] to a an environment variable
-> String
-- only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
-- somestring.replace ("whattoreplace", "replacement") is the correct usage
-- string has length() method, array has length property, collections have size() method
-- new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
+
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
 - replace(...) with 2 args(what,withwhat) or 3 args(first,lastNotIncl,withwhat)
@@ -202,8 +209,15 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - .precision is numbers to print after the decimal point
 - conversion acceptable characters are: b, c (char), d (integer), f (floating point), s (string)
 - IF CONVERSION FAILS YOU GET IllegalFormatConversionException!!!
+- %b will only return false for null and false boolean value, for all other types, including String "false" or 0 it will return true
 
-> String has .split(regexDelimiter) method that tokenizes string into an array of string tokens
+> String
+- only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
+- somestring.replace ("whattoreplace", "replacement") is the correct usage
+- string has length() method, array has length property, collections have size() method
+- new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
+- String has .split(regexDelimiter) method that tokenizes string into an array of string tokens
+- Strings computed at runtime are always NEW strings: like string resulted as ("Hello" + var) where var is a variable 
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -235,7 +249,8 @@ Chapter 7: Generics and Collections
 - SortedSet<E> tailSet(E fromElement) // Returns live view set whose elements >= fromElement. 
 - NavigableSet<E> tailSet(E fromElement, boolean inclusive) // ~//~ greater than (or equal to, if inclusive is true) fromElement.
 - headSet(E) and headSet(E,b) work exactly the same only headset(E) return elements STRICTLY smaller
-- other notable methods: TO BE CONTINUED
+- ceiling(E) and floor(E) will return elements greater OR EQUAL, respectively lower or EQUAL to the specified elem or null if not ex
+- higher(E) and lower(E) will return elements STRICTLY greater, respectively STRICTLY lower to the specified elem or null if not ex
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
 > You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
 > Array let's you get away with putting a Cat in an Animal array reference which references a Dog array object.
@@ -263,6 +278,7 @@ Chapter 9: Threads
 - Multiple threads CAN deadlock at once.
 - Using yield will not fix deadlock-able code.
 > watch out! when a method synchronized but not static and changes a static field IS IS NOT THREAD SAFE. it must be made static!!!
+> Methods that read must also be synchronized to make a class thread safe
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
@@ -298,3 +314,4 @@ Extras / Curiosities
 > Two implemented interfaces have same const & YOU USE IT (only then) => field ambigous compiler error!
 > Math.round(float) returns int and Math.round(double) returns long. they may be used to do real rounding (not for printing)
   using something like double x = 100.55; x = x * 100; x = (double) Math.round(x); x = x / 100;
+> String "+" operator actually uses stringbuilder.append internally
