@@ -134,12 +134,6 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 
 > To get -D passed properties you do: System.getProperty("x") or System.getProperties().getProperty("x")
 - you use System.getenv("var"); [ yes with non capital env ] to a an environment variable
-> Regex
-- general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
-  while(m.find()){ syso (m.group() + " ")} next sequence OR
-  m.matches() attempts to match whole word with pattern
-> "?" means 0 or 1 occurences, "*" 0 or more, "+" 1 or more
-- group will throw IllegalStateException if find (or match) wasn't called before
 > String
 - only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
 - somestring.replace ("whattoreplace", "replacement") is the correct usage
@@ -167,11 +161,6 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - method c.readPassword("%s", "pw: ") always reads the password in a char array and without echoing user input
 - method c.readLine("%s", "input?: "); contains an element entered by the user (see format)
 - method c.format("output: %s \n", str); prints something on the screen using format
-> Scanner 
-- has constructor new Scanner (String), Scanner (File), and ofc inputstream but not discussed
-- has methods useDelimiter( STRING not char )
-- methods nextInt throw java.util.InputMismatchException if format not ok;
-- also has methods next() and nextLine() for reading next token by delimiter, or next line and also boolean hasNext()!!!
 > Serialization syntax
 - FileOutputStream fs = new FileOutputStream("testSer.ser"); ObjectOutputStream os = new ObjectOutputStream(fs);
 - os.writeObject(c); os.close();} catch (Exception e)
@@ -185,6 +174,36 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - In deserialization, all constructors of the non-serializable superclasses will call. 
 - Fields of those non-serializable superclasses will not serialize, unless done manually using writeobj(oos)
 - constructors and field initializers + initializers from the first serializable superclass will NOT call
+
+> Regex
+- general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
+  while(m.find()){ syso (m.group()) } next sequence OR
+  m.matches() attempts to match whole word with pattern
+- you can also use inside find m.start() //indexstart + " " + m.end() // indexafterlast
+- "?" means 0 or 1 occurences, "*" 0 or more, "+" 1 or more
+- group will throw IllegalStateException if find (or match) wasn't called before
+- once matched, a group of chars are consumed, and will be skipped for the next find()
+- \\d means digit, \\s means space, \\w means word (letters, digits or underscore)
+- [^ab] will find any char that is not a or b
+
+> Scanner 
+- has constructor new Scanner (String), Scanner (File), and ofc inputstream but not discussed
+- has methods useDelimiter( STRING not char ) // IT IS NOT SETDELIMITER, BUT USE!!! SCANNER USE DELIMITER
+- methods nextInt throw java.util.InputMismatchException if format not ok;
+- also has methods next() and nextLine() for reading next token by delimiter, or next line and also boolean hasNext()!!!
+- for has methods, they also exist in the form of hasNextBoolean(), hasNextXXX, etc
+- ALSO HAS METHOD .findInLine(regexString) that will return the next match!!!
+
+> printf/format("specifiers", "string") are the SAME THING! USED BOTH BY SCANNER AND PRINTWRITER!!!
+- SYNTAX IS: %[arg_index$][flags][width][.precision]conversion char
+- arg_index$ means which of the argument to be printed at this position
+- flags are: - (left justify), + (include a sign), 0 (left pad with zeroes), use def locale group separators (,), ( (enclose neg in paranthesis)
+- width is minimum number of chars to print
+- .precision is numbers to print after the decimal point
+- conversion acceptable characters are: b, c (char), d (integer), f (floating point), s (string)
+- IF CONVERSION FAILS YOU GET IllegalFormatConversionException!!!
+
+> String has .split(regexDelimiter) method that tokenizes string into an array of string tokens
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
