@@ -36,8 +36,6 @@ public class DateNumberFormatsExperiments {
 		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);
 		String formattedCurrency = currencyFormat.format(145.16);
 		System.out.println(formattedCurrency);
-		char c = 66000;
-	
 	}
 
 }
