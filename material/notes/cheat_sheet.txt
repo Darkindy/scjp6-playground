@@ -149,6 +149,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
 - replace(...) with 2 args(what,withwhat) or 3 args(first,lastNotIncl,withwhat)
+- is only available from java 1.5 onward
 > MOST FILE OPERATIONS THROW EXCEPTIONS
 > File
 - constructors (string) or (File directory, String)
@@ -205,7 +206,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - SYNTAX IS: %[arg_index$][flags][width][.precision]conversion char
 - arg_index$ means which of the argument to be printed at this position
 - flags are: - (left justify), + (include a sign), 0 (left pad with zeroes), use def locale group separators (,), ( (enclose neg in paranthesis)
-- width is minimum number of chars to print
+- width is minimum number of chars to print INCLUDING precision, NOT JUST the part before decimal point
 - .precision is numbers to print after the decimal point
 - conversion acceptable characters are: b, c (char), d (integer), f (floating point), s (string)
 - IF CONVERSION FAILS YOU GET IllegalFormatConversionException!!!
@@ -217,7 +218,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - string has length() method, array has length property, collections have size() method
 - new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
 - String has .split(regexDelimiter) method that tokenizes string into an array of string tokens
-- Strings computed at runtime are always NEW strings: like string resulted as ("Hello" + var) where var is a variable 
+- Strings computed at runtime are always NEW strings: like string resulted as ("Hello" + var) where var is a variable
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -242,6 +243,7 @@ Chapter 7: Generics and Collections
 - binarySearch(arr, key [,comparator]) must use the same comparator to return relevant results
 - if binarySearch(...) does not find the element it returns -insertionPoint -1 where insertionpoint is indexof first elem > key
 > Comparator has int compare(T a, T b) AND Comparable has int compareTo(T other)
+> Comparable/Comparator can also be implemented non-generic!!! Then, the parameters will be Object.
 > AbstractList's removeRange(firstIndexIncl, lastIndexExcl) is PROTECTED. Please use .sublist(f,lexcl).clear() which delegates to removeRange internally.
 > TreeSet (methods)
 - NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive)
@@ -252,6 +254,7 @@ Chapter 7: Generics and Collections
 - ceiling(E) and floor(E) will return elements greater OR EQUAL, respectively lower or EQUAL to the specified elem or null if not ex
 - higher(E) and lower(E) will return elements STRICTLY greater, respectively STRICTLY lower to the specified elem or null if not ex
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
+- adding an existing item (compare 0) to TreeSet, will IGNORE THE NEW INSTEAD OF REPLACING THE CURRENT, unlike HashSet
 > You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
 > Array let's you get away with putting a Cat in an Animal array reference which references a Dog array object.
 > constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread
