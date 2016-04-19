@@ -1,6 +1,7 @@
 ------------------------------------------------------------------------------------------
 Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
+> short is always -32768 to 32767. It is NOT platform dependent.
 > Integer caches -128 to 127 objects created through any other means than new operator
   (autoboxed literals, Integer.valueOf("")), meaning same object will be returned
 - parseInt returns primitive int, valueOf returns wrapper (Integer)
@@ -80,6 +81,9 @@ Chapter 4: Operators
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
+> you can call instance methods in inline field initialization, and they will use the state variables initialized until reaching the current var initialization
+- for inline initialized variables after the current initialization, it will not know about this and will use default values (0 / null)
+> you can label: { } block, and IT IS LEGAL TO do break label; from a loop inside this block and it will go the the end of the block  
 > Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
 - Assertions like "assert false" are appropriate to use in any method to mark a location where code should not reach.
 - asserting a false statement throws AssertionError => program exits unless the error is caught
@@ -273,8 +277,7 @@ Chapter 9: Threads
 > The methods that throw InterruptedException are object.wait, Thread.sleep and t.join()
 > sleep and yield are STATIC. pay attention if they are called on a referenced thread. Only the current is affected!
 > Thread priorities (1-10) are the higher, the more critical (unlike priority queues where lower is urgent).
-> Child thread inherits parent's priority
-> Default thread priority is 5
+> Default thread priority is 5 (NORM_PRIORITY) for the main thread, and the INHERITED PARENT PRIORITY for all other threads
 > Threads can be started from virtually EVERYWHERE, including init blocks, constructors and inner classes
 > Two threads can deadlock if they sync on each other's instances, or synchronize lock two resources in nested reverse order.
 - They will not deadlock if only one resource is waited for by both of them; it will eventually become available
