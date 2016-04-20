@@ -291,7 +291,9 @@ Chapter 10: Development
 ------------------------------------------------------------------------------------------
 > Command javac Someclass.java SomeOtherClass.java
 - cp "path1;path2" can specify directories to scan as classpath roots to resolve classes (.class), in that order. Also: ;win :linux 
-- classpath is by default the current directory. Make sure you add . if you redefine this and want to resolve .class in current dir.
+- classpath is by default the current directory (excluding classes right here). 
+- Make sure you add . if you want to resolve .class in EXACTLY the current dir. Subfolders of . are automatically resolved
+- overriding classpath using -cp or -classpath will REPLACE settings from CLASSPATH env variable
 - -d classes specifies where to put the output
 - will create package hierarchy under output dir if compiled class is in a package other than default one
 - jars from $JAVA_HOME/jre/lib/ext/*.jar get added to cp automatically; also the ones specified in $CLASSPATH environment variable
@@ -302,8 +304,9 @@ Chapter 10: Development
 - -x means to create new archive, -u to update existing one
 - you should not put java files in the META-INF folder. Compiled classes will start from root and not be in this folder
 > Command java SomeClass
-- -ea is only used for running, not compiling. It is required to enable assertions
+- -ea is only used for running, not compiling. It is required to enable assertions; 
 - -ea:possiblyqualified.Class or -ea:somepackage... , (yes with ellipsis) can enable assertions only in certain places
+- -da:possiblyqualified.Class or -da:somepackage... may be used for disabling assertions in certain sub-places
 - java -cp classes somepackage.Someclass // -cp specifies the classpath root. Someclass in package somepackage will run
 - there can be more classpaths, separated by File.pathSeparator (;win, :linux), search stops at first find.
 
