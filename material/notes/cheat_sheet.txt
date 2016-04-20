@@ -321,3 +321,9 @@ Extras / Curiosities
 > Math.round(float) returns int and Math.round(double) returns long. they may be used to do real rounding (not for printing)
   using something like double x = 100.55; x = x * 100; x = (double) Math.round(x); x = x / 100;
 > String "+" operator actually uses stringbuilder.append internally
+
+------------------------------------------------------------------------------------------
+To be checked (for in progress exams)
+------------------------------------------------------------------------------------------
+> An inner class cannot inherit its parent
+> You cannot have an inner class with the same name as its parent
