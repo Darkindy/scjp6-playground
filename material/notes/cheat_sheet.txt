@@ -18,6 +18,10 @@ Chapter 1: Declarations and Access Control
 > If a class is not public (say package-private), its public variables will NOT be available to ANY class (in this case, only to classes in the package) 
 > Local (method) variables are also called automatic variables
 > abstract method cannot be native
+> native methods may be used for computationally intensive jobs, acces to drivers, legacy apps written in other langs
+> a protected variable of the base class will still not be accessible from a Base parameter of a method in a derived class
+  motive is that The Derived class is not involved in the implementation of the base class.
+- using a parameter of derived type will correctly give access to the base class field (because it participates in impl)
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -100,6 +104,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 > in switch it's "default:" not "case default:"
+> a switch must have at least one case or default: (else compile error)
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
@@ -238,6 +243,7 @@ Chapter 7: Generics and Collections
 > HashMap
 - can have one null key
 - values() returns a Collection that does not guarantee any ordering
+> A map cannot contain itself as a key (compiles,but bad practice -mutable key) but can contain itself as a value
 > Default ArrayList max elements is 10 when not specified
 > Collections utility class
 - sort(List) or sort(list, comparator) throw ClassCastException if the elements are not comparable (ml do not implement Comparable)
