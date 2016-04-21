@@ -336,3 +336,4 @@ To be checked (for in progress exams)
 ------------------------------------------------------------------------------------------
 > An inner class cannot inherit its parent
 > You cannot have an inner class with the same name as its parent
+> Switch conditions will matter when initializing an automatic variable (just like an if paired with an else). all cases must initialize it.
