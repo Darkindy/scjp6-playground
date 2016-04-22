@@ -19,4 +19,4 @@ DONE, but keep in mind!
 ------------------------------------------------------------------------------------------
 Keep in mind
 ------------------------------------------------------------------------------------------
-> follow all questions from fast test 1 and standard test 2
+> follow all questions from fast test 1 and standard test 2, 3 and 4
