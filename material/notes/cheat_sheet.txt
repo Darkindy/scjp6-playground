@@ -104,7 +104,10 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 > in switch it's "default:" not "case default:"
-> a switch must have at least one case or default: (else compile error)
+> a SWITCH with no case (an empty switch) IS OKAY (COMPILABLE)
+> a SWITCH cannot have any other declarations before a label. a label must be the first instruction inside it
+> variables declared in previous switch cases are reusable even after break
+- they however MUST be reinitialized explicitly in each case (even if a break was not used in the declaring case)
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
@@ -276,6 +279,17 @@ Chapter 8: Inner Classes
 - Inner classes access modifiers apply independently of the parent class (e.g. package-private inner class in public class)
 > When you instantiate inner class you do Outer.Inner inner = outer.new Inner(); // you do not requalify the new part!!!
 > When you instantiate static nested class you do Outer.StaticNested staticNested = new Outer.StaticNested(); // both parts 'Outer' qualified
+> An inner class cannot inherit its parent
+> You cannot have an inner class with the same name as its parent
+> An inner class has has access to all members of the parent class, including private ones
+> You CAN'T have static declarations of any kind inside an inner (non-static) class!!! In a static one you can.
+> You can't instantiate an inner class like new InnerClass() from a static method of the outer class because there is no <this>
+> .this points to the inner class instance. to point to the outer class instance you can use Outer.this
+> A method local inner class can be declared abstract OR final, but not any other modifier like public/private, etc
+> when creating an anonymous class like A a = new A(){}; the semicolon at the end is needed and ommiting it is a compile error!
+> You can only call methods on an annonymous class which the defined reference type knows about (usual thing for non-ann classes)
+> An annonymous type can only extend or implement a class, resp. an interface at a time. No way around this!
+> The syntax for instantiating a static nested class is BigOuter.Nest n = new BigOuter.Nest();
 
 ------------------------------------------------------------------------------------------
 Chapter 9: Threads
@@ -332,8 +346,5 @@ Extras / Curiosities
 > String "+" operator actually uses stringbuilder.append internally
 
 ------------------------------------------------------------------------------------------
-To be checked (for in progress exams)
+To be checked (for in progress exams / curiosities)
 ------------------------------------------------------------------------------------------
-> An inner class cannot inherit its parent
-> You cannot have an inner class with the same name as its parent
-> Switch conditions will matter when initializing an automatic variable (just like an if paired with an else). all cases must initialize it.
