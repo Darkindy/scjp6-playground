@@ -81,6 +81,11 @@ Chapter 4: Operators
 - it will return true if a is a ClassNameOnly (or a subclass of it).
 > ~ only applies to ints (bitwise not)
 > *, / and % all have the same level of precedence
+> All NaNs (like Float.NaN) are incomparable, returning false when compared with == either as primitive or object
+- yes indeed you can assign Float.NaN to a primitive. It is not a real number (it cannot be compared) and will print NaN. Any operations on it will also result in NaN.
+- f.equals(g) will return true if both f and g are Float.NaN. This is THE ONE exception of equals of Floats!
+- The other is that if a Float representing 0.0f and the other -0.0f will be false when applying equals(), even though == on their .floatValue()s will be true
+- there is no Integer.NaN or Long.NaN
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
@@ -108,6 +113,8 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > a SWITCH cannot have any other declarations before a label. a label must be the first instruction inside it
 > variables declared in previous switch cases are reusable even after break
 - they however MUST be reinitialized explicitly in each case (even if a break was not used in the declaring case)
+> You CANNOT use a previously declared variable e.g. "o" in a for each loop, example for(o : c) { }
+> You CAN use a final modifier on a foreach loop (only FOREACH, not for), example for (final Object o : c) { }
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
@@ -169,7 +176,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - file cannot be closed, only readers and writers do
 - Directories. You can use the following methods on File: boolean mkdir()
 - file.list() returns a string array of file names in the dir. list() does NOT throw any checked exceptions
-- other methods isDirectory(), isFile(), renameTo(File) - can actually also move a file
+- other methods isDirectory(), isFile(), renameTo(File) - can actually also move a file; they ALL return booleans/success!!!
 > FileReader [[ < BufferedReader ; FileWriter < BufferedWriter < PrintWriter ]], all construct from filenamestring or File
 - FileReader has int read(char[]) reads the whole file, returns int size read; read() 1 char; read(char[], arroffset, length)
 > BufferedReader has methods String readline() - it returns null when all lines have been read. THERE IS NO hasNext method in FileReader(s), only in scanner 
@@ -231,6 +238,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - new String("smth") will create 2 objects; one unreferenced literal in the string pool, and a new refed heap String
 - String has .split(regexDelimiter) method that tokenizes string into an array of string tokens
 - Strings computed at runtime are always NEW strings: like string resulted as ("Hello" + var) where var is a variable
+- natural ordering of strings is alphabetical (like in dictionary) and not related to string length
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -279,7 +287,7 @@ Chapter 8: Inner Classes
 - Inner classes access modifiers apply independently of the parent class (e.g. package-private inner class in public class)
 > When you instantiate inner class you do Outer.Inner inner = outer.new Inner(); // you do not requalify the new part!!!
 > When you instantiate static nested class you do Outer.StaticNested staticNested = new Outer.StaticNested(); // both parts 'Outer' qualified
-> An inner class cannot inherit its parent
+> It is valid that an inner class CAN extend its parent class
 > You cannot have an inner class with the same name as its parent
 > An inner class has has access to all members of the parent class, including private ones
 > You CAN'T have static declarations of any kind inside an inner (non-static) class!!! In a static one you can.
@@ -305,6 +313,7 @@ Chapter 9: Threads
 - Using yield will not fix deadlock-able code.
 > watch out! when a method synchronized but not static and changes a static field IS IS NOT THREAD SAFE. it must be made static!!!
 > Methods that read must also be synchronized to make a class thread safe
+> Only synchronizing write methods is not enough!, Reading methods must be synchronized as well. Also, on the SAME MONITOR, else NO effect.
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
