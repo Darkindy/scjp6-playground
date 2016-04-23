@@ -189,6 +189,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - method c.readPassword("%s", "pw: ") always reads the password in a char array and without echoing user input
 - method c.readLine("%s", "input?: "); contains an element entered by the user (see format)
 - method c.format("output: %s \n", str); prints something on the screen using format
+- methods c.reader() and c.writer() to return associated Reader and Writer
 > Serialization syntax
 - FileOutputStream fs = new FileOutputStream("testSer.ser"); ObjectOutputStream os = new ObjectOutputStream(fs);
 - os.writeObject(c); os.close();} catch (Exception e)
