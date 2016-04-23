@@ -22,6 +22,7 @@ Chapter 1: Declarations and Access Control
 > a protected variable of the base class will still not be accessible from a Base parameter of a method in a derived class
   motive is that The Derived class is not involved in the implementation of the base class.
 - using a parameter of derived type will correctly give access to the base class field (because it participates in impl)
+> there is no such thing as unsigned in Java
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -254,6 +255,8 @@ Chapter 7: Generics and Collections
 > HashMap
 - can have one null key
 - values() returns a Collection that does not guarantee any ordering
+> LinkedHashMap maintains insertion order by default BUT
+- it has a special constructor LinkedHashMap(int initialcapacity, int loadfactor, boolean lastAccessed) to favor last accessed iteration
 > A map cannot contain itself as a key (compiles,but bad practice -mutable key) but can contain itself as a value
 > Default ArrayList max elements is 10 when not specified
 > Collections utility class
