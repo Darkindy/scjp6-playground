@@ -4,6 +4,8 @@ Chapter 1: Declarations and Access Control
 > short is always -32768 to 32767. It is NOT platform dependent.
 > Integer caches -128 to 127 objects created through any other means than new operator
   (autoboxed literals, Integer.valueOf("")), meaning same object will be returned
+> Void is not a wrapper class. The only ones are: Byte, Short, Integer, Long, Float, Double, Character and Boolean
+> bool is not a keyword!!! boolean IS the type you want
 - parseInt returns primitive int, valueOf returns wrapper (Integer)
 - parseInt, constructor(String) can throw NumberFormatException if string is invalid
 > Permitted access modifiers for top level classes are only: public and (package-private)
@@ -23,10 +25,12 @@ Chapter 1: Declarations and Access Control
   motive is that The Derived class is not involved in the implementation of the base class.
 - using a parameter of derived type will correctly give access to the base class field (because it participates in impl)
 > there is no such thing as unsigned in Java
+> static initializer of class which is not actively used (Just a reference of it set to null for example) will NOT be called
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
+> It is legal for ANY class to refer to this also as ClassName.this
 > you cannot hide a method using static method in the derived class! 
 - the reverse is also true; you also cannot hide a static method using a method.
 > In order to override, the parameters of the derived method should be exactly the same. (Parameter type invariance)
@@ -76,6 +80,7 @@ Chapter 3: Assignments
 - that means that char c = a * b where a and b are ints will not work because it's a runtime determined value!!!
 > ints only upto 65565 - which is short maxvalue will cast directly to char; higher ints will give compile error.
 > something like a [ (a=b) [k] ] where a and b are arrays will make a [...] still refer to the original a, and not b!!!
+> new Short(9) is not ok, because 9 is considered an int. EXPLICIT cast is needed new Short((short) 9); applies to other as well
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
@@ -236,6 +241,8 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - conversion acceptable characters are: b, c (char), d (integer), f (floating point), s (string)
 - IF CONVERSION FAILS YOU GET IllegalFormatConversionException!!!
 - %b will only return false for null and false boolean value, for all other types, including String "false" or 0 it will return true
+> printf/format works wrapper objects too! (conversion will be done)
+> %f will not accept ints!!! just float and double
 
 > String
 - only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
@@ -310,13 +317,16 @@ Chapter 8: Inner Classes
 > It is valid that an inner class CAN extend its parent class
 > You cannot have an inner class with the same name as its parent
 > An inner class has has access to all members of the parent class, including private ones
-> You CAN'T have static declarations of any kind inside an inner (non-static) class!!! In a static one you can.
+> You CAN'T have NON-FINAL static declarations inside an inner (non-static) class!!! In a static one you can.
+- final static declarations (constants) are ok inside inner classes
 > You can't instantiate an inner class like new InnerClass() from a static method of the outer class because there is no <this>
 > .this points to the inner class instance. to point to the outer class instance you can use Outer.this
 > A method local inner class can be declared abstract OR final, but not any other modifier like public/private, etc
 > when creating an anonymous class like A a = new A(){}; the semicolon at the end is needed and ommiting it is a compile error!
 > You can only call methods on an annonymous class which the defined reference type knows about (usual thing for non-ann classes)
 > An annonymous type can only extend or implement a class, resp. an interface at a time. No way around this!
+> An anonymous class cannot be declared static
+> An anonymous class cannot have constructors
 > The syntax for instantiating a static nested class is BigOuter.Nest n = new BigOuter.Nest();
 
 ------------------------------------------------------------------------------------------
@@ -334,6 +344,7 @@ Chapter 9: Threads
 > watch out! when a method synchronized but not static and changes a static field IS IS NOT THREAD SAFE. it must be made static!!!
 > Methods that read must also be synchronized to make a class thread safe
 > Only synchronizing write methods is not enough!, Reading methods must be synchronized as well. Also, on the SAME MONITOR, else NO effect.
+> calling interrupt() will cause an InterruptedException ONLY if the thread on which interrupt() is called, is blocked on an invocation of the wait(...), join(...), or sleep(...), methods of this class
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development

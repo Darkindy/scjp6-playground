@@ -12,7 +12,6 @@ public class InnerClassExperiments {
 	}
 
 }
-
 class Outer {
 
 	static class StaticNested {
@@ -20,6 +19,8 @@ class Outer {
 	}
 
 	class Inner {
+		/* XXX: Ok to have final static constant in inner class. */
+		final static char a = '1';
 
 	}
 
