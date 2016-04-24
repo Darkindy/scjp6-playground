@@ -59,10 +59,14 @@ Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
 ------------------------------------------------------------------------------------------
-> Widening is preferred to boxing
+> Order of signature matching:
+- Phase 1: Identify Matching Arity Methods Applicable by widening (ignores varargs and boxing/unboxing)
+- Phase 2: Identify Matching Arity Methods Applicable by Method Invocation Conversion (ignores varargs, respects boxing/unboxing)
+- Phase 3: Identify Applicable Variable Arity Methods
+> So, widening is preferred to boxing
 > Varargs must be last argument
 > Varargs are always considered last in overloading, even when we also have (Object) sgntr
-> You can't widen then box, but you can box then widen! REMEMBER FIRST you BOX!!!
+> You can't widen then box, but you can box/unbox then widen! REMEMBER FIRST you BOX!!!
 - e.g. you CAN int -> Integer -> Object (assigning to superclass is considered widening in wrappers)
 - but you can't short -> long -> Long
 - Integer (wrapper) increment and postincrement WORK! they really assign the value (create new obj).
@@ -248,6 +252,10 @@ Chapter 7: Generics and Collections
 > You don't specify dimensions when using array initializers. int[] a = new int[2]{1,2} is incorrect.
 > You cannot use Generic specifiers defined at class level (like <T>) in static methods. 
 - Make it a generic static method separately by using the static <U> getStuff(U u) syntax
+> Passing a generic collection to a non generic collection method parameter will result in warning ONLY if the method ADDS something
+> Passing a non generic collection to a generic collection method parameter will result in warning
+> You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
+> you can declare a class with a name that is the same as the type parameter placeholder: class X { public <X> X(X x) { } }
 > PriorityQueue 
 - is NOT a List, it is a Queue
 - has (int maxelements, comparator<T>) constructor
@@ -263,12 +271,17 @@ Chapter 7: Generics and Collections
 > Collections utility class
 - sort(List) or sort(list, comparator) throw ClassCastException if the elements are not comparable (ml do not implement Comparable)
 > Arrays throw ArrayIndexOutOfBoundsException when accesing an element at an index >= size. if size=0 then even a[0]
-> Arrays utility class if the elements are not comparable (ml do not implement Comparable)
-- sort() throws ClassCast exception of 
+> Arrays throw ArrayStoreException if we add a Dog into a Cat array through an Animal reference.
+> Arrays utility class 
+- if the elements are not comparable (ml do not implement Comparable) sort() throws ClassCast exception
+- sort(...) has no overload for privitive types that also take a Comparator!!!
+- sort(...) alter the objects they get as a parameter! THEY RETURN void (also for lists, not just arrays)
 - binarySearch(arr, key [,comparator]) must use the same comparator to return relevant results
 - if binarySearch(...) does not find the element it returns -insertionPoint -1 where insertionpoint is indexof first elem > key
 > Comparator has int compare(T a, T b) AND Comparable has int compareTo(T other)
 > Comparable/Comparator can also be implemented non-generic!!! Then, the parameters will be Object.
+> list.toArray() returns a NEW array containing elements of the list; it comes with a param version to use specific destination array
+> Arrays.asList(array) returns a Collection lively backed up by the specific array. Changes to one update both, unlike toArray result
 > AbstractList's removeRange(firstIndexIncl, lastIndexExcl) is PROTECTED. Please use .sublist(f,lexcl).clear() which delegates to removeRange internally.
 > TreeSet (methods)
 - NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive)
@@ -278,11 +291,14 @@ Chapter 7: Generics and Collections
 - headSet(E) and headSet(E,b) work exactly the same only headset(E) return elements STRICTLY smaller
 - ceiling(E) and floor(E) will return elements greater OR EQUAL, respectively lower or EQUAL to the specified elem or null if not ex
 - higher(E) and lower(E) will return elements STRICTLY greater, respectively STRICTLY lower to the specified elem or null if not ex
+- first(), last() will return the respective elements.
+- descendingSet() will return a reversely sorted TreeSet
+- pollFirst(), pollLast() also work returning and also removing the respective elements
+- Please note that many of this methods are also available for TreeMap (e.g. firstEntry, ceilingKey, pollLastEntry, descendingMap)
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
 - adding an existing item (compare 0) to TreeSet, will IGNORE THE NEW INSTEAD OF REPLACING THE CURRENT, unlike HashSet
-> You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
-> Array let's you get away with putting a Cat in an Animal array reference which references a Dog array object.
-> constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread
+> constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread 
+> Set add will only add element if it's new. (returns false if not new). Map put will overwrite associated value.
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes

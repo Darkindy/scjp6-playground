@@ -1,5 +1,8 @@
 package com.accenture.andreipietrusel.scjp6playground.genericscollections.curiosity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.accenture.andreipietrusel.scjp6playground.genericscollections.ComplicatedGenerics;
 
 public class CuriosityGenerics<T extends ComplicatedGenerics> {
@@ -27,6 +30,16 @@ public class CuriosityGenerics<T extends ComplicatedGenerics> {
 	/* Returning just the passed in parameter. */
 	public <X extends T> X getGeneric4(X x) {
 		return x;
+	}
+	
+	public <X extends String> List<X> doMyStuff(List<X> param){
+		return null;
+	}
+	
+	public void lol(){
+		@SuppressWarnings("rawtypes")
+		List l = new ArrayList();
+		doMyStuff(l);
 	}
 
 }
