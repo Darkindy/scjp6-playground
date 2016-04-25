@@ -166,9 +166,10 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > java.util.Calendar
 - you obtain it using Calendar.getInstance();
 - you can set date to it using calendar.setTime(date)
-- you can also use set(year, month, day) BUT REMEMBER MONTH STARTS AT 0 (ZERO) or you could use Calendar.JANUARY
+- you can also use calendar.set(year, month, day) BUT REMEMBER MONTH STARTS AT 0 (ZERO) or you could use Calendar.JANUARY
 - c.add(Calendar.HOUR, 1) or c.roll(Calendar.MONTH, 11) works; roll is like add only it leaves larger units as it and recycles through specified unit
 - c.get(Calendar.DAY_OF_MONTH) returns day of month(e.g.31); you don't have to know all fields for exam
+- c.set(Calendar.MONTH,0) sets the month to January
 - calendar.getTime() obtains a Date represented by this calendar
 
 > java.text.DateFormat
@@ -226,6 +227,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > System.console() returns the console INSTANCE as java.io.Console, we CAN'T get it with "new"
 - method c.readPassword("%s", "pw: ") always reads the password in a char array and without echoing user input
 - method c.readLine("%s", "input?: "); contains an element entered by the user (see format)
+- methods readPassword and readLine also have non-parameterized versions. The two parameters are actually a printf/format for the message shown before reading
 - method c.format("output: %s \n", str); prints something on the screen using format
 - methods c.reader() and c.writer() to return associated Reader and Writer
 - From Enthuware: You can read as well write ONLY character data from Console.
@@ -337,7 +339,6 @@ Chapter 7: Generics and Collections
 - pollFirst(), pollLast() also work returning and also removing the respective elements
 - Please note that many of this methods are also available for TreeMap (e.g. firstEntry, ceilingKey, pollLastEntry, descendingMap)
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
-- adding an existing item (compare 0) to TreeSet, will IGNORE THE NEW INSTEAD OF REPLACING THE CURRENT, unlike HashSet
 > constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread 
 > Set add will only add element if it's new. (returns false if not new). Map put will overwrite associated value.
 
@@ -399,7 +400,7 @@ Chapter 10: Development
 > Command jar -cf JarFileName classesdir
 - when -f is used file name must follow (not required to end in .jar) 
 - META-INF is automatically created. no need to exist before command. It will not contain classes!
-- -x means to create new archive, -u to update existing one
+- -c means to create new archive, -u to update existing one
 - you should not put java files in the META-INF folder. Compiled classes will start from root and not be in this folder
 > Command java SomeClass
 - -ea is only used for running, not compiling. It is required to enable assertions; 
