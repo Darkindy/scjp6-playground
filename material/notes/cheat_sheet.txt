@@ -94,16 +94,19 @@ Chapter 3: Assignments
 - but you can't short -> long -> Long
 - Integer (wrapper) increment and postincrement WORK! they really assign the value (create new obj).
 > always think x+=y as x = (t) (x + y) and x++ as x = (t) (x+1)
-> Boolean.valueOf or the constructor(String) of boolean returns true for a case insensitive tRuE, else false, never null
-> Java performs implicit narrowing conversions of primitives when the context requires it when the value is the result of a constant expression only
-- that means that char c = a * b where a and b are ints will not work because it's a runtime determined value!!!
-> ints only upto 65565 - which is short maxvalue will cast directly to char; higher ints will give compile error.
+> Boolean.valueOf or the constructor(String) of boolean returns true for a case insensitive tRuE, else false, never null. BUT NullPointerException if parameter is null
 > something like a [ (a=b) [k] ] where a and b are arrays will make a [...] still refer to the original a, and not b!!!
 > new Short(9) is not ok, because 9 is considered an int. EXPLICIT cast is needed new Short((short) 9); applies to other as well
 > dividing two floats and then multiplying the result to get to the initial float WORKS! THE SAME IS NOT TRUE FOR DOUBLES due to higher precision.
 - e.g. float f = 1.0F / 3.0F; syso(f* 3.0F == 1.0F) will return true!
-> a char can always be assigned to an int. The reverse is obviously not true, because char is narrower.
-- Actually you cannot convert any primitive to char without an explicit cast!!! not short and NOT EVEN byte!!!
+> Java performs implicit narrowing conversions of primitives when the context requires it when the value is the result of a constant expression only
+> a char can always be assigned to an int. 
+> The reverse is true only for compile-time constants (inline literal initialization) if the int is between 0 and 65535 (unsigned short)
+- ints only upto 65565 - which is short maxvalue will cast directly to char; higher ints will give compile error.
+> THE RULE IS that for compile time constants, int can be automatically inline assigned to: 
+  byte (-128 to 127), short(-32768 to 32767), char (0 to 65535)
+> For dynamic (non-compile-time-constant) primitive conversion that narrows, an explicit cast is needed as in any narrowing
+- that means that char c = a * b where a and b are ints will not work because it's a runtime determined value!!!
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
