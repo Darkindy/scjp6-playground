@@ -1,7 +1,6 @@
 ------------------------------------------------------------------------------------------
 To Improve
 ------------------------------------------------------------------------------------------
-> Assignments
 > Operators
 > Flow Control, Exceptions, and Assertions
 > Threads
@@ -15,6 +14,7 @@ DONE, but keep in mind!
 !> Development
 !> Inner Classes
 !> Generics and Collections
+!> Assignments
 
 ------------------------------------------------------------------------------------------
 Keep in mind
