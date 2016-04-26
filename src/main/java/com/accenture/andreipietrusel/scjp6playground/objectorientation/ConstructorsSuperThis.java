@@ -8,15 +8,24 @@ class Super {
 	 */
 	protected Super(int a) {
 		this.a = a;
+
+		if (this instanceof ConstructorsSuperThis)
+			System.out.println("It is");
 	}
 }
 
-class Sub extends Super {
-	public Sub(int a) {
+public class ConstructorsSuperThis extends Super {
+	public ConstructorsSuperThis(int a) {
 		super(a);
 	}
 
-	public Sub() {
+	public static void main(String... args) {
+		new Super(4);
+		System.out.println("Following:");
+		new ConstructorsSuperThis();
+	}
+
+	public ConstructorsSuperThis() {
 		// this.a = 5;
 		this(5); // will work, because it eventually calls super(a)
 		// super(5); // will work
