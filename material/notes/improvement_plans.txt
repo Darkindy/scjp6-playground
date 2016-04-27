@@ -1,7 +1,6 @@
 ------------------------------------------------------------------------------------------
 To Improve
 ------------------------------------------------------------------------------------------
-> Flow Control, Exceptions, and Assertions
 > Threads
 > Object Orientation
 > Declarations and Access Control
@@ -15,6 +14,7 @@ DONE, but keep in mind!
 !> Generics and Collections
 !> Assignments
 !> Operators
+!> Flow Control, Exceptions, and Assertions
 
 ------------------------------------------------------------------------------------------
 Keep in mind

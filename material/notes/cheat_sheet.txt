@@ -179,6 +179,7 @@ Chapter 4: Operators
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
 ------------------------------------------------------------------------------------------
+> short circuit &&/|| will ignore the rest of the line even for complex remaining boolean expressions. e.g.: a && b | c will stop at a if a is false
 > you can call instance methods in inline field initialization, and they will use the state variables initialized until reaching the current var initialization
 - for inline initialized variables after the current initialization, it will not know about this and will use default values (0 / null)
 > you can label: { } block, and IT IS LEGAL TO do break label; from a loop inside this block and it will go the the end of the block  
@@ -187,6 +188,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - asserting a false statement throws AssertionError => program exits unless the error is caught
 - asserting a modifying statement is bad practice. code will only modify is assertions are enabled.
 - syntax is assert boolean_statement : non_void_return_statement where the 2nd will print to screen (usually a string)
+- you can optionally enclose the boolean statement inside paranthesis!!! keep in mind that this is unlike instanceof where paranthesis are NOT OK!
 - the 2nd expression can call modifiable code, but usually it doesn't matter anymore as the program doesn't catch the error and exits
 > while(false) and for(;false;) are illegal. if(false) and do{}while(false)are legal!!
 - for if(true) throw RuntimeException, any code following will NOT be considered UNREACHABLE! WHAT A HACK! :O
@@ -195,13 +197,20 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - redefinition of other variables from the parent scope is illegal and is a tricky exam catch!!
 - WATCH OUT FOR reusing FOR incrementing variables after closing the for scope!!! => Compile error!
 - multiple incrementing expressions are permitted, and they don't have to necessarily increment
+- multiple check expressions are NOT PERMITTED
+- the last 2 things that happen in a for loop that ends normally is executing the incrementing expression(s) and checking the condition
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 > When you throw exceptions from the finally block, any exceptions thrown in the try are FORGOTTEN and only the finally one propagates!
 > in switch it's "default:" not "case default:"
-> a SWITCH's case values must be compile-time constants and of compatible type as switched(x) x value. e.g. switch(byte) { case 128: } will not compile (as 128 > byte)  
+> a SWITCH's case values must be compile-time constants (either class constants or final automatic vars with LITERAL(!) values.
+- also they must be of compatible type as switched(x) x value. e.g. switch(byte) { case 128: } will not compile (as 128 > byte)  
+> you cannot use a long, float or double as a switch expression
 > a SWITCH with no case (an empty switch) IS OKAY (COMPILABLE)
 > a SWITCH cannot have any other declarations before a label. a label must be the first instruction inside it
+> a SWITCH cannot have multiple labels for the same value!!!
+> you can switch on a boxed number, it will be unboxed!
+> it's legal (though not required) to have code blocks after switch cases. e.g.  case SOMETHING: { /* code here */ }
 > variables declared in previous switch cases are reusable even after break
 - they however MUST be reinitialized explicitly in each case (even if a break was not used in the declaring case)
 > You CANNOT use a previously declared variable e.g. "o" in a for each loop, example for(o : c) { }
@@ -462,10 +471,13 @@ Chapter 10: Development
 > Command java SomeClass
 - -ea is only used for running, not compiling. It is required to enable assertions; 
 - -esa is used to enable assertions for system classes
+- -dsa disables system assertions
 - -ea:possiblyqualified.Class or -ea:somepackage... , (yes with ellipsis) can enable assertions only in certain places
 - -da:possiblyqualified.Class or -da:somepackage... may be used for disabling assertions in certain sub-places
 - java -cp classes somepackage.Someclass // -cp specifies the classpath root. Someclass in package somepackage will run
 - there can be more classpaths, separated by File.pathSeparator (;win, :linux), search stops at first find.
+- java.lang.NoClassDefFoundError may arise if the classpath does not include the necessary classes for running the main method
+- you can also use full name flags like -disableassertions or -classpath
 
 
 ------------------------------------------------------------------------------------------
