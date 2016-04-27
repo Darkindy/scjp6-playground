@@ -44,7 +44,6 @@ Chapter 1: Declarations and Access Control
 > unboxing is prefered when doing == between a primitive and a wrapper. 
 - you should watch out for NullPointerException though if the wrapper is null
 
-
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
@@ -141,6 +140,10 @@ Chapter 3: Assignments
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
 ------------------------------------------------------------------------------------------
+> Compound assignment operators like *= evaluate the right expression first. e.g.: a * = b + c is in fact a = a * (b + c)
+> You can compare a character to any number, including floats/doubles
+> if a float 1.0 and an int 1 are considered equal. Similar things apply for other primitives equality
+> You can't compare anything with anything like int with Object
 > the assignment operator (=) has the lest precedence. left, then right members will be fully evaluated first.
 > You can use logical or (xor) "^" to return true from mixing two different valued booleans
 > << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it

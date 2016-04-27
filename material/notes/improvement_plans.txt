@@ -1,7 +1,6 @@
 ------------------------------------------------------------------------------------------
 To Improve
 ------------------------------------------------------------------------------------------
-> Operators
 > Flow Control, Exceptions, and Assertions
 > Threads
 > Object Orientation
@@ -15,6 +14,7 @@ DONE, but keep in mind!
 !> Inner Classes
 !> Generics and Collections
 !> Assignments
+!> Operators
 
 ------------------------------------------------------------------------------------------
 Keep in mind
