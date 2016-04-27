@@ -27,13 +27,18 @@ Chapter 1: Declarations and Access Control
 > a protected variable of the base class will still not be accessible from a Base parameter of a method in a derived class
   motive is that The Derived class is not involved in the implementation of the base class.
 - using a parameter of derived type will correctly give access to the base class field (because it participates in impl)
+> private means private to the class and not to the object. Meaning that you can access the private field of a passed parameter object in a method of the same class as it
 > there is no such thing as unsigned in Java
 > static initializer of class which is not actively used (Just a reference of it set to null for example) will NOT be called
+> You cannot throw exceptions explicitly from initializers (static or not). it will give compiler error!!!
+> /*/* / * ***//*/ is a valid comment as anything inside /* and  */ is successfully commented
+- any runtime exceptions that may occur will be wrapped in an ExceptionInInitializerError
 > If the signature of the main method is not valid and we try to run the class using "java", we get java.lang.NoSuchMethodError! Note that the class compiled.
 > Java does NOT support chained initialization declaration like: int a = b = c = 100;
 - it does however allow it outside initialization (by chaining the operator = which returns the assigned value);
 > In an array declaration, the expression from the left of the [ is fully evaluated before the expression in the brackets!!! 
 - that's why a[(a=b)[1]] will still refer to elements in the old a
+> if you have a function call func(a, a=b), the first parameter will already have been fully evaluated/passed (from left to right) and old value will be used!!!
 > You can create an array of length 0
 > Native methods don't specify a body, else compiler error; also, keep in mind that they can be declared in non-abstract classes
 > you CAN declare a static field as transient even though it doesn't make much sense
@@ -43,6 +48,8 @@ Chapter 1: Declarations and Access Control
 - also Integer and Long wrapper classes have toString(int/long, radix) static methods to output the numbers in other radixes
 > unboxing is prefered when doing == between a primitive and a wrapper. 
 - you should watch out for NullPointerException though if the wrapper is null
+> If you define your own no-arg constructor of a public class, and do not set it public (leaving it package-private), classes from other packages will
+  not be able to instantiate it. Even more, derived classes will not be able to call this constructor from theirs so they will not compile
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -65,6 +72,8 @@ Chapter 2: Object Orientation
 > No multiple use of implements keyword. Use comma for multiple interfaces
 > An interface can extend multiple other interfaces
 > Interface methods CAN declare exceptions!
+> If a class implements multiple interfaces and each define the same method but with different thrown exceptions:
+  the class can AT MOST declare all exceptions compatible with all the interfaces separately (or of course lesser exceptions / none)
 > It's a compiler error to assign a new Base object to a derived reference. If you cast => ClassCastExc at runtime
 > Finalize
 - You can call finalize by hand BUT it acts just as a simple method call (no special meaning)
@@ -88,6 +97,8 @@ Chapter 2: Object Orientation
 - this applies even if the last enum value overrides a method and ends with }. This means }; is correct.
 - Quick note: the other known case where ; follows } is when declaring an ANONYMOUS (not named-local) class AND assigning it to a reference!!!
 > A is-like-a I usually means A implements I so A can be used for all purposes like an I 
+> HARD: using a constant from an INTERFACE that extends another interface will not execute the initialization of the constants for the base interface
+- even more, if we refer to a constant of a base INTERFACE through the derived interface (POSSIBLE!) the derived constants initialization will not take place, only the BASE ones which are used actively
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -110,6 +121,7 @@ Chapter 3: Assignments
 > new Short(9) is not ok, because 9 is considered an int. EXPLICIT cast is needed new Short((short) 9); applies to other as well
 > dividing two floats and then multiplying the result to get to the initial float WORKS! THE SAME IS NOT TRUE FOR DOUBLES due to higher precision.
 - e.g. float f = 1.0F / 3.0F; syso(f* 3.0F == 1.0F) will return true!
+> watch out for casting a big int to float then back to int. THEY WILL MOST LIKELY NOT BE EQUAL due to the way floating point vars are stored.
 > Java performs implicit narrowing conversions of primitives when the context requires it when the value is the result of a constant expression only
 > a char can always be assigned to an int. 
 > The reverse is true only for compile-time constants (inline literal initialization) if the int is between 0 and 65535 (unsigned short)
@@ -136,17 +148,20 @@ Chapter 3: Assignments
 - For somevar = Integer.MIN_VALUE, -somevar (minus somevar) will be == to somevar, which is Integer.MIN_VALUE!!! this happens only for MIN_VALUE for reason of 2's complement
 > For assigning references, you can assign a subclass of the declared type, but not a superclass of the declared type
 > All the numeric wrapper classes have .floatValue, .intValue, .shortValue, etc. to convert any numeric type to any other numeric primitive type
+> If you define two overloads with (int,long) and (long,int) params and call those with (int,int) params, you get compiler error => Ambiguous overloads!!!
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
 ------------------------------------------------------------------------------------------
+> == between objects of different class hierarchies, like Integer and Byte will cause compiler error!
 > Compound assignment operators like *= evaluate the right expression first. e.g.: a * = b + c is in fact a = a * (b + c)
 > You can compare a character to any number, including floats/doubles
 > if a float 1.0 and an int 1 are considered equal. Similar things apply for other primitives equality
 > You can't compare anything with anything like int with Object
-> the assignment operator (=) has the lest precedence. left, then right members will be fully evaluated first.
+> the assignment operator (=) has the least precedence. left, then right members will be fully evaluated first.
 > You can use logical or (xor) "^" to return true from mixing two different valued booleans
 > << and >>> are actually the opposites. >> keeps sign bit, >>> has more force and pulls it
+> operator >>>= indeed exists! :O
 > Correct syntax is a instanceof ClassNameOnly-NotAVariableNotAnExpression. NO PARANTHESIS~~!
 - it will return true if a is a ClassNameOnly (or a subclass of it).
 - ATTENTION: instanceof will give compiler error if right member Class is not assignable from the left member class
@@ -159,6 +174,7 @@ Chapter 4: Operators
 - f.equals(g) will return true if both f and g are Float.NaN. This is THE ONE exception of equals of Floats!
 - The other is that if a Float representing 0.0f and the other -0.0f will be false when applying equals(), even though == on their .floatValue()s will be true
 - there is no Integer.NaN or Long.NaN
+> .equals between different primitive wrappers will return false even though they store the same value
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
@@ -183,6 +199,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 > When you throw exceptions from the finally block, any exceptions thrown in the try are FORGOTTEN and only the finally one propagates!
 > in switch it's "default:" not "case default:"
+> a SWITCH's case values must be compile-time constants and of compatible type as switched(x) x value. e.g. switch(byte) { case 128: } will not compile (as 128 > byte)  
 > a SWITCH with no case (an empty switch) IS OKAY (COMPILABLE)
 > a SWITCH cannot have any other declarations before a label. a label must be the first instruction inside it
 > variables declared in previous switch cases are reusable even after break
@@ -250,7 +267,8 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - constructors (string) or (File directory, String)
 - has methods exists(); createNewFile() - which really creates,equals then updated returns true if created;
 - file cannot be closed, only readers and writers do
-- Directories. You can use the following methods on File: boolean mkdir()
+- Directories. You can use the following methods on File: boolean mkdir() - creates one folder, mkdirs() creates whole hierarchy of folders
+- file.getParentFile() returns File object representing parent folder of file. Also, file.getParent returns parent dir of file as String
 - file.list() returns a string array of file names in the dir. list() does NOT throw any checked exceptions
 - other methods isDirectory(), isFile(), renameTo(File) - can actually also move a file; they ALL return booleans/success!!!
 > FileReader [[ < BufferedReader ; FileWriter < BufferedWriter < PrintWriter ]], all construct from filenamestring or File
@@ -282,6 +300,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - constructors and field initializers + initializers from the first serializable superclass will NOT call
 
 > Regex
+- Be careful to use \\ instead of \ to escape java!!! e.g. \\s
 - general usage is: Pattern p = Pattern.compile("\\s"); Matcher m=p.matcher("word"); 
   while(m.find()){ syso (m.group()) } next sequence OR
   m.matches() attempts to match whole word with pattern
@@ -314,6 +333,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > %f will not accept ints!!! just float and double
 
 > String
+- there is no append method in the String class. only in StringBuilder/StringBuffer
 - only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
 - Strings computed at runtime are always NEW strings: like string resulted as ("Hello" + var) where var is a variable
 - To add runtime strings to the pool you must use s = s.intern()!!! But until java 7 it is a bad idea and will eventually OutOfMemoryError: PermGen space 
