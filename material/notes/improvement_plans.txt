@@ -1,9 +1,9 @@
 ------------------------------------------------------------------------------------------
 To Improve
 ------------------------------------------------------------------------------------------
-> Threads
-> Object Orientation
 > Declarations and Access Control
+> Object Orientation
+> Threads
 
 ------------------------------------------------------------------------------------------
 DONE, but keep in mind!
@@ -19,4 +19,4 @@ DONE, but keep in mind!
 ------------------------------------------------------------------------------------------
 Keep in mind
 ------------------------------------------------------------------------------------------
-> follow all questions from fast test 1, faster test 1 AND exam 11
+> follow all questions from fast test 1, faster test 1

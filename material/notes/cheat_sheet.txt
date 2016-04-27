@@ -93,8 +93,10 @@ Chapter 2: Object Orientation
 > Finally is not guaranteed to run, for example if you call System.exit(0) it won't run
 > The only guaranteed thing about gc may be that if you are getting close to filling the memory the gc will run
 > No mechanisms will force a right-here-right-now garbage collection!!!
+> The algorithm for garbage collection is JVM-specific. It is NOT (always) mark-and-sweep.
 > When declaring enums, there must always be a ";" after the enum values if class code follows
 - this applies even if the last enum value overrides a method and ends with }. This means }; is correct.
+- Unlike a regular java class, you cannot access a non-final static field from an enum's constructor. 
 - Quick note: the other known case where ; follows } is when declaring an ANONYMOUS (not named-local) class AND assigning it to a reference!!!
 > A is-like-a I usually means A implements I so A can be used for all purposes like an I 
 > HARD: using a constant from an INTERFACE that extends another interface will not execute the initialization of the constants for the base interface
@@ -371,6 +373,7 @@ Chapter 7: Generics and Collections
 > HashMap
 - can have one null key
 - values() returns a Collection that does not guarantee any ordering
+- HashTable is a legacy synchronized HashMap
 > LinkedHashMap maintains insertion order by default BUT
 - it has a special constructor LinkedHashMap(int initialcapacity, int loadfactor, boolean lastAccessed) to favor last accessed iteration
 > A map cannot contain itself as a key (compiles,but bad practice -mutable key) but can contain itself as a value
@@ -437,6 +440,7 @@ Chapter 9: Threads
 ------------------------------------------------------------------------------------------
 > The methods that throw InterruptedException are object.wait, Thread.sleep and t.join()
 > calling interrupt() will cause an InterruptedException ONLY if the thread on which interrupt() is called, is blocked on an invocation of the wait(...), join(...), or sleep(...), methods of this class
+> an outside interrupt will cause a call to isInterrupted inside the target Thread run method to start returning true.	 
 > sleep and yield are STATIC. pay attention if they are called on a referenced thread. Only the current is affected!
 > There is NO lock or resume method!
 > Thread priorities (1-10) are the higher, the more critical (unlike priority queues where lower is urgent).
@@ -450,6 +454,7 @@ Chapter 9: Threads
 > Methods that read must also be synchronized to make a class thread safe
 > Only synchronizing write methods is not enough!, Reading methods must be synchronized as well. Also, on the SAME MONITOR, else NO effect.
 > Synchronizing the run method is pointless as two threads will have their own instance!!!
+> thread.setDaemon(true) can be called to make a thread daemon BEFORE START. if called after start, IllegalThreadStateException 
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
