@@ -1,6 +1,7 @@
 ------------------------------------------------------------------------------------------
 Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
+> An identifier must start with a letter, $ or _. They cannot start with a number.
 > short is always -32768 to 32767. It is NOT platform dependent.
 > Integer caches -128 to 127 objects created through any other means than new operator
   (autoboxed literals, Integer.valueOf("")), meaning same object will be returned
@@ -9,6 +10,7 @@ Chapter 1: Declarations and Access Control
 > NULL is not a keyword. Only lowercase null is. This rule can be applied to any keyword.
 > A java identifier cannot start with a digit (be it class, method, variable, etc.)
 - _ and $ are valid at any position!
+- Java identifiers cannot be keywords. "const" is a keyword, though with no effect in java 6
 - parseInt returns primitive int, valueOf returns wrapper (Integer)
 - parseInt, constructor(String) can throw NumberFormatException if string is invalid
 > Permitted access modifiers for top level classes are only: public and (package-private)
@@ -50,6 +52,8 @@ Chapter 1: Declarations and Access Control
 - you should watch out for NullPointerException though if the wrapper is null
 > If you define your own no-arg constructor of a public class, and do not set it public (leaving it package-private), classes from other packages will
   not be able to instantiate it. Even more, derived classes will not be able to call this constructor from theirs so they will not compile
+> JavaBeans listeners standards are: PUBLIC void addXXXListener(XXXListener) and PUBLIC void removeXXXListener(XXXListener)
+- PAY ATTENTION that SET, GET and listener methods must be public
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
