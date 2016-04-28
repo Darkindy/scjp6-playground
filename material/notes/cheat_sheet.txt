@@ -24,11 +24,10 @@ Chapter 1: Declarations and Access Control
 > strictfp can be applied to methods, classes and interfaces
 > If a class is not public (say package-private), its public variables will NOT be available to ANY class (in this case, only to classes in the package) 
 > Local (method) variables are also called automatic variables
-> abstract method cannot be native
+> abstract method cannot be native or strictfp
 > native methods may be used for computationally intensive jobs, acces to drivers, legacy apps written in other langs
-> a protected variable of the base class will still not be accessible from a Base parameter of a method in a derived class
-  motive is that The Derived class is not involved in the implementation of the base class.
-- using a parameter of derived type will correctly give access to the base class field (because it participates in impl)
+> a protected variable of the Base class will still not be accessible from a Base instance in a derived class FROM OUTSIDE THE PACKAGE 
+- using an instance of the derived type will correctly give access to the base class field
 > private means private to the class and not to the object. Meaning that you can access the private field of a passed parameter object in a method of the same class as it
 > there is no such thing as unsigned in Java
 > static initializer of class which is not actively used (Just a reference of it set to null for example) will NOT be called
@@ -54,6 +53,10 @@ Chapter 1: Declarations and Access Control
   not be able to instantiate it. Even more, derived classes will not be able to call this constructor from theirs so they will not compile
 > JavaBeans listeners standards are: PUBLIC void addXXXListener(XXXListener) and PUBLIC void removeXXXListener(XXXListener)
 - PAY ATTENTION that SET, GET and listener methods must be public
+> parameters = what must accept, arguments = what is passed
+> constructors can't be marked static, abstract, final or strictfp! ONLY access modifiers are allowed!
+> enums cannot be declared inside methods
+> you can't invoke an enum constructor directly
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -115,7 +118,7 @@ Chapter 3: Assignments
 - Phase 3: Identify Applicable Variable Arity Methods
 > So, widening is preferred to boxing and when an exact match isn't found, the JVM uses the method with the smallest argument that is wider
 > You can't widen then box, but you can box/unbox then widen! REMEMBER FIRST you BOX!!!
-> Varargs must be last argument
+> Varargs must be last argument and there can only be one varargs per method!
 > Varargs are always considered last in overloading, even when we also have (Object) sgntr
 > When you get to phase 3 (varargs) you can use boxing / widening also and the vararg method chosen will ofc prefer widening vararg over boxing vararg
 - e.g. you CAN int -> Integer -> Object (assigning to superclass is considered widening in wrappers)
