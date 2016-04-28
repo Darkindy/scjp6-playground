@@ -2,7 +2,7 @@
 Chapter 1: Declarations and Access Control
 ------------------------------------------------------------------------------------------
 > An identifier must start with a letter, $ or _. They cannot start with a number.
-> short is always -32768 to 32767. It is NOT platform dependent.
+> short is always -32768 to 32767. It is NOT platform dependent. ALL PRIMITIVE DATATYPES are the same on all platforms.
 > Integer caches -128 to 127 objects created through any other means than new operator
   (autoboxed literals, Integer.valueOf("")), meaning same object will be returned
 > Void is not a wrapper class. The only ones are: Byte, Short, Integer, Long, Float, Double, Character and Boolean
@@ -108,6 +108,8 @@ Chapter 2: Object Orientation
 > A is-like-a I usually means A implements I so A can be used for all purposes like an I 
 > HARD: using a constant from an INTERFACE that extends another interface will not execute the initialization of the constants for the base interface
 - even more, if we refer to a constant of a base INTERFACE through the derived interface (POSSIBLE!) the derived constants initialization will not take place, only the BASE ones which are used actively
+> private methods are not inherited, so essentially you can refefine them (not overriding) in the derived class
+- this being said it's legal to redefine even a base method marked as private final
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
