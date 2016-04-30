@@ -71,6 +71,8 @@ Chapter 2: Object Orientation
 > In order to override, the parameters of the derived method should be exactly the same. (Parameter type invariance)
 - Covariant (more derived) or contravariant (ancestor type) parameters are NOT valid overrides, BUT LEGAL OVERLOADS!!!
 - Covariant return types are permitted but only for objects! NOT FOR PRIMITIVES.
+- Covariant return types are only supported since Java 1.5. Before, they gave compiler error
+- Contravariant return types are NOT permitted
 - Legal signature of equals is always: public boolean equals(Object other); you cannot use class type as parameter
 > super and this cannot be used from a static context (like main)
 > You CAN'T do "this.super" or "var.super"
@@ -94,6 +96,9 @@ Chapter 2: Object Orientation
 - It is valid that subclass can indirectly invoke the base parameterized constructor through another of its
   constructors, that call super(...) as it's first statement.
 > BE CAREFUL of private constructors/method calls in the same class as the main method! they work!
+> When calling super(...) constructor in the derived constructor, you CANNOT use expressions regarding intance methods/fields! 
+- Statics and ofc current constructor params are ok.
+> Abstract classes' constructos will be called when instantiating non-abstract subclasses
 > Strings declared inside a block/method will NOT be available for garbage collection (in java 6 anyway) after the method/block ends
 > Objects that have references to them might still be garbage collected if those references are from objects also g.c. eligible (islands)
 > You can ask for gc by either using System.gc() or Runtime.getRuntime().gc()
