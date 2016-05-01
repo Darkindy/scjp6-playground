@@ -453,10 +453,15 @@ Chapter 8: Inner Classes
 Chapter 9: Threads
 ------------------------------------------------------------------------------------------
 > The methods that throw InterruptedException are object.wait, Thread.sleep and t.join()
-> calling interrupt() will cause an InterruptedException ONLY if the thread on which interrupt() is called, is blocked on an invocation of the wait(...), join(...), or sleep(...), methods of this class
+> calling interrupt() will cause an InterruptedException ONLY if the thread on which interrupt() 
+  is called, is blocked on an invocation of the wait(...), join(...), or sleep(...), methods of this class
+> t.join() will make the current thread wait for t's completion. It can also get a param, t.join(milliseconds),
+  which will allow current thread to run after ms elapsed regardless of t's completion
 > an outside interrupt will cause a call to isInterrupted inside the target Thread run method to start returning true.	 
 > sleep and yield are STATIC. pay attention if they are called on a referenced thread. Only the current is affected!
-> There is NO lock or resume method!
+- sleep and yield can only run on the current thread
+> Yield is used to permit other threads of EQUAL PRIORITY to get a change to run
+> There is NO lock method. The stop, suspend and resume methods are deprecated and should not be on the exam!!!
 > Thread priorities (1-10) are the higher, the more critical (unlike priority queues where lower is urgent).
 > Default thread priority is 5 (NORM_PRIORITY) for the main thread, and the INHERITED PARENT PRIORITY for all other threads
 > Threads can be started from virtually EVERYWHERE, including init blocks, constructors and inner classes
@@ -469,6 +474,13 @@ Chapter 9: Threads
 > Only synchronizing write methods is not enough!, Reading methods must be synchronized as well. Also, on the SAME MONITOR, else NO effect.
 > Synchronizing the run method is pointless as two threads will have their own instance!!!
 > thread.setDaemon(true) can be called to make a thread daemon BEFORE START. if called after start, IllegalThreadStateException 
+> IllegalThreadStateException will also pop if we attempt to start a Thread twice
+> The runnable you pass to a thread is called Target
+> The non-overriden method of a plain Thread instance does not do anything
+> join, sleep and yield keep the lock aquired by synchronized keyword
+- wait(), on the other hand, gives them up!!!
+> You call object.wait() inside a syncronized block to put the current state into a waiting state until other thread calls notify on the object
+> You cannot call wait on an object unless you have that object's lock. Else you get IllegalMonitorStateException at RUNTIME
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
