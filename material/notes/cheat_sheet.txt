@@ -37,8 +37,9 @@ Chapter 1: Declarations and Access Control
 > If the signature of the main method is not valid and we try to run the class using "java", we get java.lang.NoSuchMethodError! Note that the class compiled.
 > Java does NOT support chained initialization declaration like: int a = b = c = 100;
 - it does however allow it outside initialization (by chaining the operator = which returns the assigned value);
-> In an array declaration, the expression from the left of the [ is fully evaluated before the expression in the brackets!!! 
+> In an array declaration, the expression from the left of the [ is fully evaluated, then the one in the brackets, and only in the end the indexed get!!! 
 - that's why a[(a=b)[1]] will still refer to elements in the old a
+> the expressions in the brackets, when creating a new array, DO NOT HAVE TO BE CONSTANTS, and will be evaluated left to right
 > if you have a function call func(a, a=b), the first parameter will already have been fully evaluated/passed (from left to right) and old value will be used!!!
 > You can create an array of length 0
 > Native methods don't specify a body, else compiler error; also, keep in mind that they can be declared in non-abstract classes
@@ -85,6 +86,7 @@ Chapter 2: Object Orientation
   the class can AT MOST declare all exceptions compatible with all the interfaces separately (or of course lesser exceptions / none)
 > It's a compiler error to assign a new Base object to a derived reference. If you cast => ClassCastExc at runtime
 > Finalize
+- class Object's finalize throws Throwable, so if you call if by super you also have to declare throws Throwable it in the subclass' finalize
 - You can call finalize by hand BUT it acts just as a simple method call (no special meaning)
 - GC will only run finalize once (it remebers this)
 - Objects can be saved from GC during finalization. The next time object is gc, finalize will not be called.
@@ -199,6 +201,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > you can call instance methods in inline field initialization, and they will use the state variables initialized until reaching the current var initialization
 - for inline initialized variables after the current initialization, it will not know about this and will use default values (0 / null)
 > you can label: { } block, and IT IS LEGAL TO do break label; from a loop inside this block and it will go the the end of the block  
+- you can also break out of a simple labeled block, with no loop inside required!!!
 > Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
 - Assertions like "assert false" are appropriate to use in any method to mark a location where code should not reach.
 - asserting a false statement throws AssertionError => program exits unless the error is caught
@@ -271,6 +274,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - nf.format(Number) that returns a formatted number String; throws arithmetic exc if roundingmode is set to unnecessary
 - nf.setRoundingMode(RoundingMode) can set rounding mode; IF NOT SPECIFIED IS HALF_EVEN. round up usually, unless 0.5 then round to nearest EVEN number
 - nf.setMaximumFractionDigits and nf.setMinimumFractionDigits will be respected, ROUNDING WILL BE APPLIED when using format(...)
+- Math.round's / round half up rounds negative numbers towards zero. e.g. 0.5 -> 0
 
 > java.util.Locale
 - getDefault() gets current default locale!!! remember JUST getDefault()!!!
@@ -286,6 +290,8 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
 - replace(...) with 2 args(what,withwhat) or 3 args(first,lastNotIncl,withwhat)
+- IT DOES NOT contain the trim() method
+- setLength(int) method resizes the stored string, either truncating or filling with NUL (ascii 0) chars
 - is only available from java 1.5 onward
 > MOST FILE OPERATIONS THROW EXCEPTIONS
 > File
@@ -300,6 +306,8 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - FileReader has int read(char[]) reads the whole file, returns int size read; read() 1 char; read(char[], arroffset, length)
 > BufferedReader has methods String readline() - it returns null when all lines have been read. THERE IS NO hasNext method in FileReader(s), only in scanner 
 > FileWriter
+- constructor(String) will create file on the file system if it does not exist
+- constructor(String, boolean append true) will not overwrite the file if it exists, but will append to it
 - has write(String) - writes characters to file, has flush() may be called before close; write(char[]/String, offset, length) 
 > BufferedWriter - has newLine method.
 > PrintWriter - has print(..), println(..), format(..) and printf/format(..)
@@ -348,7 +356,12 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > printf/format("specifiers", "string") are the SAME THING! USED BOTH BY SCANNER AND PRINTWRITER!!!
 - SYNTAX IS: %[arg_index$][flags][width][.precision]conversion char
 - arg_index$ means which of the argument to be printed at this position
-- flags are: - (left justify), + (include a sign, requires spec. width), 0 (left pad with zeroes), use def locale group separators (,), ( (enclose neg in paranthesis)
+- flags are: 
+  - (left justify), 
+  + (include a sign), 
+  0 (left pad with zeroes, requires spec. width), 
+  use def locale group separators (,), 
+  ( (enclose neg in paranthesis, does not print sign even if combined with +)
 - width is minimum number of chars to print INCLUDING precision, NOT JUST the part before decimal point
 - .precision is numbers to print after the decimal point
 - conversion acceptable characters are: b, c (char), d (integer), f (floating point), s (string)
@@ -422,6 +435,7 @@ Chapter 7: Generics and Collections
 - pollFirst(), pollLast() also work returning and also removing the respective elements
 - Please note that many of this methods are also available for TreeMap (e.g. firstEntry, ceilingKey, pollLastEntry, descendingMap)
 - REMEMBER: if you add an out of range element to a live subSet, you get java.lang.IllegalArgumentException: key out of range
+> Treeset will permit adding one first non-comparable-implementing object, and will fail only after adding another one
 > constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread 
 > Set add will only add element if it's new. (returns false if not new). Map put will overwrite associated value.
 
@@ -472,14 +486,15 @@ Chapter 9: Threads
 > watch out! when a method synchronized but not static and changes a static field IS IS NOT THREAD SAFE. it must be made static!!!
 > Methods that read must also be synchronized to make a class thread safe
 > Only synchronizing write methods is not enough!, Reading methods must be synchronized as well. Also, on the SAME MONITOR, else NO effect.
-> Synchronizing the run method is pointless as two threads will have their own instance!!!
+> Synchronizing the run method will cause two threads that share the same runnable to not execute in parallel, but one after another
 > thread.setDaemon(true) can be called to make a thread daemon BEFORE START. if called after start, IllegalThreadStateException 
 > IllegalThreadStateException will also pop if we attempt to start a Thread twice
 > The runnable you pass to a thread is called Target
 > The non-overriden method of a plain Thread instance does not do anything
 > join, sleep and yield keep the lock aquired by synchronized keyword
 - wait(), on the other hand, gives them up!!!
-> You call object.wait() inside a syncronized block to put the current state into a waiting state until other thread calls notify on the object
+> You call object.wait() inside a syncronized block to put the current thread into a waiting state until other thread calls notify on the object
+- it's common that 2 threads that run the same runnable, communicate using this.wait() and this.notify() called directly in the run method.
 > You cannot call wait on an object unless you have that object's lock. Else you get IllegalMonitorStateException at RUNTIME
 
 ------------------------------------------------------------------------------------------

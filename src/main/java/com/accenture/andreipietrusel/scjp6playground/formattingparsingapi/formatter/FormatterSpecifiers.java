@@ -22,6 +22,8 @@ public class FormatterSpecifiers {
 		 * XXX: %d only accepts int. java.util.IllegalFormatConversionException.
 		 */
 		// System.out.format(" %d", d);
+		
+		System.err.printf("%+(5d", -2);
 	}
 
 }
