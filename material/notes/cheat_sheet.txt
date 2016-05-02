@@ -201,7 +201,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > you can call instance methods in inline field initialization, and they will use the state variables initialized until reaching the current var initialization
 - for inline initialized variables after the current initialization, it will not know about this and will use default values (0 / null)
 > you can label: { } block, and IT IS LEGAL TO do break label; from a loop inside this block and it will go the the end of the block  
-- you can also break out of a simple labeled block, with no loop inside required!!!
+- you can also break out of a simple LABELED block, with no loop inside required!!! IT MUST BE LABELED!
 > Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
 - Assertions like "assert false" are appropriate to use in any method to mark a location where code should not reach.
 - asserting a false statement throws AssertionError => program exits unless the error is caught
@@ -442,6 +442,7 @@ Chapter 7: Generics and Collections
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
 ------------------------------------------------------------------------------------------
+> Only TOP-LEVEL nested classic can be declared static. BUT a static inner class can contain other non-static inner classes
 > Inner classes can also be declare private or protected
 - Inner classes access modifiers apply independently of the parent class (e.g. package-private inner class in public class)
 > When you instantiate inner class you do Outer.Inner inner = outer.new Inner(); // you do not requalify the new part!!!
