@@ -87,6 +87,7 @@ Chapter 2: Object Orientation
 > It's a compiler error to assign a new Base object to a derived reference. If you cast => ClassCastExc at runtime
 > Finalize
 - class Object's finalize throws Throwable, so if you call if by super you also have to declare throws Throwable it in the subclass' finalize
+- class Object's finalize is protected!
 - You can call finalize by hand BUT it acts just as a simple method call (no special meaning)
 - GC will only run finalize once (it remebers this)
 - Objects can be saved from GC during finalization. The next time object is gc, finalize will not be called.
@@ -167,6 +168,8 @@ Chapter 3: Assignments
 > For assigning references, you can assign a subclass of the declared type, but not a superclass of the declared type
 > All the numeric wrapper classes have .floatValue, .intValue, .shortValue, etc. to convert any numeric type to any other numeric primitive type
 > If you define two overloads with (int,long) and (long,int) params and call those with (int,int) params, you get compiler error => Ambiguous overloads!!!
+- If you define single param overloads of multiple classes in a hierararchy, if you call it with null the most specific subclass will be called
+  you can do an explicit cast on null to force the compiler to select one overload, in case the overload is ambigous (different hierarchies)
 
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
@@ -339,6 +342,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
   m.matches() attempts to match whole word with pattern
 - you can also use inside find m.start() //indexstart + " " + m.end() // indexafterlast
 - "?" means 0 or 1 occurences, "*" 0 or more, "+" 1 or more
+- NOTE THAT * is greedy! so .* will match all possible. so "A.*B" will match "ACBAB" in "ACBABC";
 - group will throw IllegalStateException if find (or match) wasn't called before
 - once matched, a group of chars are consumed, and will be skipped for the next find()
 - \\d means digit, \\s means space, \\w means word (letters, digits or underscore)
@@ -438,6 +442,8 @@ Chapter 7: Generics and Collections
 > Treeset will permit adding one first non-comparable-implementing object, and will fail only after adding another one
 > constructors CANNOT be synchronized! They don't normally have to because the obj is available only to creating thread 
 > Set add will only add element if it's new. (returns false if not new). Map put will overwrite associated value.
+> If we extend a genericized<Something> class, keep in mind the type of the extended class are set in place to Something
+- Something really tricky here is that false overrides (overloads) of generic class' methods (same name and arity) will FAIL COMPILATION!
 
 ------------------------------------------------------------------------------------------
 Chapter 8: Inner Classes
@@ -496,6 +502,7 @@ Chapter 9: Threads
 - wait(), on the other hand, gives them up!!!
 > You call object.wait() inside a syncronized block to put the current thread into a waiting state until other thread calls notify on the object
 - it's common that 2 threads that run the same runnable, communicate using this.wait() and this.notify() called directly in the run method.
+- NOTE THAT you pretty much can't do that directly using classes that extend thread because you can't start the same thread twice
 > You cannot call wait on an object unless you have that object's lock. Else you get IllegalMonitorStateException at RUNTIME
 
 ------------------------------------------------------------------------------------------
