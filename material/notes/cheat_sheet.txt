@@ -510,8 +510,8 @@ Chapter 10: Development
 ------------------------------------------------------------------------------------------
 > Command javac Someclass.java SomeOtherClass.java
 - cp "path1;path2" can specify directories to scan as classpath roots to resolve classes (.class), in that order. Also: ;win :linux 
-- classpath is by default the current directory (excluding classes right here). 
-- Make sure you add . if you want to resolve .class in EXACTLY the current dir. Subfolders of . are automatically resolved
+- classpath is by default the current directory (excluding clases right here). 
+- Make sure you add . if you want to resolve .class (packages) in the current dir IF you also specify other cp folders 
 - overriding classpath using -cp or -classpath will REPLACE settings from CLASSPATH env variable
 - -d classes specifies where to put the output
 - will create package hierarchy under output dir if compiled class is in a package other than default one
