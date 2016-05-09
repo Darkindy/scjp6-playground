@@ -58,10 +58,12 @@ Chapter 1: Declarations and Access Control
 > constructors can't be marked static, abstract, final or strictfp! ONLY access modifiers are allowed!
 > enums cannot be declared inside methods
 > you can't invoke an enum constructor directly
+> Java.lang package is imported automatically, no need for an import statement.
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
 ------------------------------------------------------------------------------------------
+> if A<B<C in inheritance hierarchy, an object of class c will not be able to access public variable i from A if B shadows it with a private one
 > order of initialization is: static fields+initializers in the order declared, inline declarations+initializers i.o.d, constructor
 - if the used class extends another class the statics of that class will run first
 - the inline field initializations+initializer blocks will run AFTER the superclass constructor and before the current class Constructor
@@ -118,6 +120,10 @@ Chapter 2: Object Orientation
 - even more, if we refer to a constant of a base INTERFACE through the derived interface (POSSIBLE!) the derived constants initialization will not take place, only the BASE ones which are used actively
 > private methods are not inherited, so essentially you can refefine them (not overriding) in the derived class
 - this being said it's legal to redefine even a base method marked as private final
+> Object.clone() is PROTECTED and throws CloneNotSupportedException.
+- to make clone work, you implement MARKER clonable interface in the class you want
+- then you make a PUBLIC Clazz clone() method in which you do a try { Clazz clone = (Clazz) super.clone() } to get the clone of the current object (a shallow copy)
+- to deep copy some fields, you manually assign them insid the try doing clone.dog = (Dog) dog.clone();
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -140,6 +146,7 @@ Chapter 3: Assignments
 > new Short(9) is not ok, because 9 is considered an int. EXPLICIT cast is needed new Short((short) 9); applies to other as well
 > dividing two floats and then multiplying the result to get to the initial float WORKS! THE SAME IS NOT TRUE FOR DOUBLES due to higher precision.
 - e.g. float f = 1.0F / 3.0F; syso(f* 3.0F == 1.0F) will return true!
+> casting a float of Integer.MAXVALUE to int and then comparing it to Integer.MAXVALUE will result TRUE.
 > watch out for casting a big int to float then back to int. THEY WILL MOST LIKELY NOT BE EQUAL due to the way floating point vars are stored.
 > Java performs implicit narrowing conversions of primitives when the context requires it when the value is the result of a constant expression only
 > a char can always be assigned to an int. 
@@ -174,6 +181,8 @@ Chapter 3: Assignments
 ------------------------------------------------------------------------------------------
 Chapter 4: Operators
 ------------------------------------------------------------------------------------------
+> == has less precedence than < > or other operators so (true == 2 < 4) is ok and true
+> if i==1 then i++ + ++i is 4
 > == between objects of different class hierarchies, like Integer and Byte will cause compiler error!
 > Compound assignment operators like *= evaluate the right expression first. e.g.: a * = b + c is in fact a = a * (b + c)
 > You can compare a character to any number, including floats/doubles
@@ -205,6 +214,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - for inline initialized variables after the current initialization, it will not know about this and will use default values (0 / null)
 > you can label: { } block, and IT IS LEGAL TO do break label; from a loop inside this block and it will go the the end of the block  
 - you can also break out of a simple LABELED block, with no loop inside required!!! IT MUST BE LABELED!
+> JAVA has "goto" reseved keyword BUT IT DOES NOTHING, will just give syntax error!
 > Assertions should gen. be used to validate private method args. Validating public input is inappropriate (e.g. args of main)
 - Assertions like "assert false" are appropriate to use in any method to mark a location where code should not reach.
 - asserting a false statement throws AssertionError => program exits unless the error is caught
@@ -224,6 +234,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 > When you throw exceptions from the finally block, any exceptions thrown in the try are FORGOTTEN and only the finally one propagates!
+- same thing for returning values, the value from the FINALLY block WILL BE THE ONE RETURNED
 > in switch it's "default:" not "case default:"
 > a SWITCH's case values must be compile-time constants (either class constants or final automatic vars with LITERAL(!) values.
 - also they must be of compatible type as switched(x) x value. e.g. switch(byte) { case 128: } will not compile (as 128 > byte)  
@@ -231,6 +242,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > a SWITCH with no case (an empty switch) IS OKAY (COMPILABLE)
 > a SWITCH cannot have any other declarations before a label. a label must be the first instruction inside it
 > a SWITCH cannot have multiple labels for the same value!!!
+> switching on a postincrement expression will apply the incrementation after executing the code in a case!!!
 > you can switch on a boxed number, it will be unboxed!
 > it's legal (though not required) to have code blocks after switch cases. e.g.  case SOMETHING: { /* code here */ }
 > variables declared in previous switch cases are reusable even after break
@@ -293,6 +305,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > StringBuilder
 - notable methods: append(String), insert(int,String), reverse(), delete(startIncl, end), toString()
 - replace(...) with 2 args(what,withwhat) or 3 args(first,lastNotIncl,withwhat)
+- replace returns same object if no change is being done!!! ATTENTION: the input and resulting strings will be equals using == reference comparator
 - IT DOES NOT contain the trim() method
 - setLength(int) method resizes the stored string, either truncating or filling with NUL (ascii 0) chars
 - is only available from java 1.5 onward
@@ -375,6 +388,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 > %f will not accept ints!!! just float and double
 
 > String
+- there is no reverse method in the String class.
 - there is no append method in the String class. only in StringBuilder/StringBuffer
 - only literal strings are automatically added to the pool. two objects pointing there will be equal using ==
 - Strings computed at runtime are always NEW strings: like string resulted as ("Hello" + var) where var is a variable
@@ -395,6 +409,7 @@ Chapter 7: Generics and Collections
 > Passing a generic collection to a non generic collection method parameter will result in warning ONLY if the method ADDS something
 > Passing a non generic collection to a generic collection method parameter will result in warning
 > You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
+> you cannot do <T super SomeClass>, but only <? super SomeClass> as the first one will have no sense (it's implicitly left unbounded/Object bounded)
 > you can declare a class with a name that is the same as the type parameter placeholder: class X { public <X> X(X x) { } }
 > PriorityQueue 
 - is NOT a List, it is a Queue
@@ -460,11 +475,13 @@ Chapter 8: Inner Classes
 - final static declarations (constants) are ok inside inner classes
 > You can't instantiate an inner class like new InnerClass() from a static method of the outer class because there is no <this>
 > .this points to the inner class instance. to point to the outer class instance you can use Outer.this
+> A mehtod without the abstract modifier in an abstract class will not be abstract MUST define a body. ELSE COMPILER ERROR. It's not like in interfaces!!!
 > A method local inner class can be declared abstract OR final, but not any other modifier like public/private, etc
 > when creating an anonymous class like A a = new A(){}; the semicolon at the end is needed and ommiting it is a compile error!
 > You can only call methods on an annonymous class which the defined reference type knows about (usual thing for non-ann classes)
 > An annonymous type can only extend or implement a class, resp. an interface at a time. No way around this!
 > An anonymous class cannot be declared static
+> An anonymous class is implicitly final
 > An anonymous class cannot have constructors
 > An anonymous class must respect the constructors of an abstract class and must be declared as new AbstractClass(someparam) {...}
   if the abstract class has no other constructors except de parameterized one. Else, compiler error!
