@@ -31,6 +31,8 @@ Chapter 1: Declarations and Access Control
 > private means private to the class and not to the object. Meaning that you can access the private field of a passed parameter object in a method of the same class as it
 > there is no such thing as unsigned in Java
 > static initializer of class which is not actively used (Just a reference of it set to null for example) will NOT be called
+- ATTENTION: ACTIVE USE MEANS ONLY own (not superclass) method/constructor calls and own NON-STATIC field reading/assigning. All others, like constant reading/superclass actions are not active uses!
+  This applies to interfaces and classes alike.
 > You cannot throw exceptions explicitly from initializers (static or not). it will give compiler error!!!
 > /*/* / * ***//*/ is a valid comment as anything inside /* and  */ is successfully commented
 - any runtime exceptions that may occur will be wrapped in an ExceptionInInitializerError
@@ -311,6 +313,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - is only available from java 1.5 onward
 > MOST FILE OPERATIONS THROW EXCEPTIONS
 > File
+- is immutable, the abstract pathname will be set in place after creation. New File objects will be required for traversing the file system
 - constructors (string) or (File directory, String)
 - has methods exists(); createNewFile() - which really creates,equals then updated returns true if created;
 - file cannot be closed, only readers and writers do
@@ -356,10 +359,12 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - you can also use inside find m.start() //indexstart + " " + m.end() // indexafterlast
 - "?" means 0 or 1 occurences, "*" 0 or more, "+" 1 or more
 - NOTE THAT * is greedy! so .* will match all possible. so "A.*B" will match "ACBAB" in "ACBABC";
+  Also note that * will also match empty string!!! so calling find() repeatedly will match empty string and advance 1 char until new match!!!
 - group will throw IllegalStateException if find (or match) wasn't called before
 - once matched, a group of chars are consumed, and will be skipped for the next find()
 - \\d means digit, \\s means space, \\w means word (letters, digits or underscore)
 - [^ab] will find any char that is not a or b
+- [abcd] will match either char a,b,c or d
 - \\b means word boundary, it can be useful to match words delimited by at least one space on either end (e.g. \bsomeword\b)
 
 > Scanner 
@@ -521,6 +526,7 @@ Chapter 9: Threads
 - it's common that 2 threads that run the same runnable, communicate using this.wait() and this.notify() called directly in the run method.
 - NOTE THAT you pretty much can't do that directly using classes that extend thread because you can't start the same thread twice
 > You cannot call wait on an object unless you have that object's lock. Else you get IllegalMonitorStateException at RUNTIME
+> If synchronized methods complete abruptly, locks ARE released!
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
