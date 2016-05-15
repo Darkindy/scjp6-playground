@@ -48,6 +48,7 @@ Chapter 1: Declarations and Access Control
 > you CAN declare a static field as transient even though it doesn't make much sense
 > Multidimensional array initialization must specify the dimension starting from at least the first bracket. e.g. int[][] a = new int [3][];
 - specifying dimensions for the other (more to the right) dimensions is only possible if the first ones are specified
+> Multiple array declarations like int[] a, b[] will further consider type[], making b bidimensional
 > Integer or Long wrapper classes have .toBinaryString, toHexString and toOctalString() methods
 - also Integer and Long wrapper classes have toString(int/long, radix) static methods to output the numbers in other radixes
 > unboxing is prefered when doing == between a primitive and a wrapper. 
@@ -234,6 +235,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 - multiple check expressions are NOT PERMITTED
 - the last 2 things that happen in a for loop that ends normally is executing the incrementing expression(s) and checking the condition
 > You can add a throws declaration for any checked exception, even though it is not really thrown anywhere
+> Throwable is checked!!! only derived from RuntimeException or Error are unchecked.
 > Order of caught exception MUST be from narrower to broader!!! else COMPILE ERROR!
 > When you throw exceptions from the finally block, any exceptions thrown in the try are FORGOTTEN and only the finally one propagates!
 - same thing for returning values, the value from the FINALLY block WILL BE THE ONE RETURNED
@@ -246,6 +248,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > a SWITCH cannot have multiple labels for the same value!!!
 > switching on a postincrement expression will apply the incrementation after executing the code in a case!!!
 > you can switch on a boxed number, it will be unboxed!
+> YOU CAN SWITCH ON A CONSTANT!!! e.g. switch(1) {}
 > it's legal (though not required) to have code blocks after switch cases. e.g.  case SOMETHING: { /* code here */ }
 > variables declared in previous switch cases are reusable even after break
 - they however MUST be reinitialized explicitly in each case (even if a break was not used in the declaring case)
@@ -416,6 +419,7 @@ Chapter 7: Generics and Collections
 > You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
 > you cannot do <T super SomeClass>, but only <? super SomeClass> as the first one will have no sense (it's implicitly left unbounded/Object bounded)
 > you can declare a class with a name that is the same as the type parameter placeholder: class X { public <X> X(X x) { } }
+> When returning a generic List<? super/extends E> from a method, you can only assign it to List or List<?> or List<same as ret>
 > PriorityQueue 
 - is NOT a List, it is a Queue
 - has (int maxelements, comparator<T>) constructor
@@ -517,6 +521,7 @@ Chapter 9: Threads
 > Only synchronizing write methods is not enough!, Reading methods must be synchronized as well. Also, on the SAME MONITOR, else NO effect.
 > Synchronizing the run method will cause two threads that share the same runnable to not execute in parallel, but one after another
 > thread.setDaemon(true) can be called to make a thread daemon BEFORE START. if called after start, IllegalThreadStateException 
+> the main thread is NOT a daemon thread and is created by VM
 > IllegalThreadStateException will also pop if we attempt to start a Thread twice
 > The runnable you pass to a thread is called Target
 > The non-overriden method of a plain Thread instance does not do anything
@@ -537,6 +542,7 @@ Chapter 10: Development
 - Make sure you add . if you want to resolve .class (packages) in the current dir IF you also specify other cp folders 
 - overriding classpath using -cp or -classpath will REPLACE settings from CLASSPATH env variable
 - -d classes specifies where to put the output
+- if the specified -d directory does not exist, then no class file will be created!!!
 - will create package hierarchy under output dir if compiled class is in a package other than default one
 - jars from $JAVA_HOME/jre/lib/ext/*.jar get added to cp automatically; also the ones specified in $CLASSPATH environment variable
 - -source 1.3 is the LAST ONE to NOT consider assert a keyword!!! Starting from 1.4 it is a keyword!
