@@ -62,6 +62,9 @@ Chapter 1: Declarations and Access Control
 > enums cannot be declared inside methods
 > you can't invoke an enum constructor directly
 > Java.lang package is imported automatically, no need for an import statement.
+> You can't use in a derived class constructor's this(...) or super(...) call FIELD from the BASE CLASS at they are not initialized yet => c. error
+> A reference counts as a reference even if it has no value attached
+> In class declaration syntax, you first EXTEND, then IMPLEMENT, else compiler ERROR.
 
 ------------------------------------------------------------------------------------------
 Chapter 2: Object Orientation
@@ -127,6 +130,7 @@ Chapter 2: Object Orientation
 - to make clone work, you implement MARKER clonable interface in the class you want
 - then you make a PUBLIC Clazz clone() method in which you do a try { Clazz clone = (Clazz) super.clone() } to get the clone of the current object (a shallow copy)
 - to deep copy some fields, you manually assign them insid the try doing clone.dog = (Dog) dog.clone();
+> You can have a field initialized as: String f = this.toString()
 
 ------------------------------------------------------------------------------------------
 Chapter 3: Assignments
@@ -208,6 +212,7 @@ Chapter 4: Operators
 - The other is that if a Float representing 0.0f and the other -0.0f will be false when applying equals(), even though == on their .floatValue()s will be true
 - there is no Integer.NaN or Long.NaN
 > .equals between different primitive wrappers will return false even though they store the same value
+> Integer + Integer (wrapper addition) works well, EVEN FOR DIFFERENT WRAPPER CLASSES, like Long and Integer
 
 ------------------------------------------------------------------------------------------
 Chapter 5: Flow Control, Exceptions, and Assertions
@@ -255,6 +260,7 @@ Chapter 5: Flow Control, Exceptions, and Assertions
 > You CANNOT use a previously declared variable e.g. "o" in a for each loop, example for(o : c) { }
 > You CAN use a final modifier on a foreach loop (only FOREACH, not for), example for (final Object o : c) { }
 > throwing null/Null exception is legal compilation but will result in NullPointerException at runtime.
+> AssertionError is considered a programmer-thrown error
 
 ------------------------------------------------------------------------------------------
 Chapter 6: Strings, I/O, Formatting and Parsing (API)
@@ -295,6 +301,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - nf.setRoundingMode(RoundingMode) can set rounding mode; IF NOT SPECIFIED IS HALF_EVEN. round up usually, unless 0.5 then round to nearest EVEN number
 - nf.setMaximumFractionDigits and nf.setMinimumFractionDigits will be respected, ROUNDING WILL BE APPLIED when using format(...)
 - Math.round's / round half up rounds negative numbers towards zero. e.g. 0.5 -> 0
+> NumberFormat / DateFormat classes extend the java.text.Format class
 
 > java.util.Locale
 - getDefault() gets current default locale!!! remember JUST getDefault()!!!
@@ -407,6 +414,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
 - String has .split(regexDelimiter) method that tokenizes string into an array of string tokens
 - In String.split, all TRAILING delimiters are discarded (not the ones in middle). e.g. "one;;two;;;" => "one", "", "two" (length 3) 
 - natural ordering of strings is alphabetical (like in dictionary) and not related to string length
+- in this natural ordering: spaces < numbers < Uppercase < Lowercase
 
 ------------------------------------------------------------------------------------------
 Chapter 7: Generics and Collections
@@ -414,6 +422,8 @@ Chapter 7: Generics and Collections
 > You don't specify dimensions when using array initializers. int[] a = new int[2]{1,2} is incorrect.
 > You cannot use Generic specifiers defined at class level (like <T>) in static methods. 
 - Make it a generic static method separately by using the static <U> getStuff(U u) syntax
+> If you don't specify <type> when extending a generic type, it will implicitly use Object!!!
+> Generic Interfaces exist!
 > Passing a generic collection to a non generic collection method parameter will result in warning ONLY if the method ADDS something
 > Passing a non generic collection to a generic collection method parameter will result in warning
 > You can't call add on a collection<? extends Something>, which has ?extends wildcard param. Compile error! YOU CAN ON "? super String"!!!!
@@ -532,6 +542,7 @@ Chapter 9: Threads
 - NOTE THAT you pretty much can't do that directly using classes that extend thread because you can't start the same thread twice
 > You cannot call wait on an object unless you have that object's lock. Else you get IllegalMonitorStateException at RUNTIME
 > If synchronized methods complete abruptly, locks ARE released!
+> Synchronized methods hold a small overhead even when not called in a multithreaded enviroment
 
 ------------------------------------------------------------------------------------------
 Chapter 10: Development
