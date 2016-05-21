@@ -77,13 +77,15 @@ Chapter 2: Object Orientation
 > It is legal for ANY class to refer to this also as ClassName.this
 > you cannot hide a method using static method in the derived class! 
 - the reverse is also true; you also cannot hide a static method using a method.
+> you CAN hide a static method in the derived class
+- if you declare a static method as final in the base class, you will NOT be able to hide it in the subclass
 > In order to override, the parameters of the derived method should be exactly the same. (Parameter type invariance)
 - Covariant (more derived) or contravariant (ancestor type) parameters are NOT valid overrides, BUT LEGAL OVERLOADS!!!
 - Covariant return types are permitted but only for objects! NOT FOR PRIMITIVES.
 - Covariant return types are only supported since Java 1.5. Before, they gave compiler error
 - Contravariant return types are NOT permitted
 - Legal signature of equals is always: public boolean equals(Object other); you cannot use class type as parameter
-> super and this cannot be used from a static context (like main)
+> !!!!!!!!!! super and this cannot be used from a static context (like main) !!!!!!!!!!!!
 > You CAN'T do "this.super" or "var.super"
 > You CAN'T call super-superclass's method if it was overriden by superclass!!!
 > No comma (,) between extends and implements. Comma is used only to separate multiple interfaces
@@ -394,7 +396,7 @@ Chapter 6: Strings, I/O, Formatting and Parsing (API)
   0 (left pad with zeroes, requires spec. width), 
   use def locale group separators (,), 
   ( (enclose neg in paranthesis, does not print sign even if combined with +)
-- width is minimum number of chars to print INCLUDING precision, NOT JUST the part before decimal point
+- width is minimum number of chars to print INCLUDING precision and decimal point, NOT JUST the part before decimal point
 - .precision is numbers to print after the decimal point
 - conversion acceptable characters are: b, c (char), d (integer), f (floating point), s (string)
 - IF CONVERSION FAILS YOU GET IllegalFormatConversionException!!!
