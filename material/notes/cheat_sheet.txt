@@ -204,6 +204,8 @@ Chapter 4: Operators
 > Correct syntax is a instanceof ClassNameOnly-NotAVariableNotAnExpression. NO PARANTHESIS~~!
 - it will return true if a is a ClassNameOnly (or a subclass of it).
 - ATTENTION: instanceof will give compiler error if right member Class is not assignable from the left member class
+- ATTENTION EXAM: instanceof will NOT give compiler error is right member is an interface, even though left member class is 
+  not assignable from current class as it could be assignable from a subclass of the tested object's class
 - instanceof inside base class constructor will know that it is a whether class being constructed and it will return true if so
 - a null check is NOT required when calling instanceof
 > ~ only applies to ints (bitwise not)
